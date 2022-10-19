@@ -1,0 +1,85 @@
+.container
+{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    padding: 5px 3px;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+    background-color: transparent;
+    transition: background-color 0.2s;
+    -webkit-transition: background-color 0.2s;
+    -moz-transition: background-color 0.2s;
+    -ms-transition: background-color 0.2s;
+    -o-transition: background-color 0.2s;
+}
+.container > div
+{
+    display: flex;
+    align-items: center;
+}
+.container > div > span
+{
+    color: var(--senary);
+    margin-left: 5px;
+}
+.container.active, .container:hover
+{
+    background-color: var(--quinary);
+}
+.container.active  .invite_icon, .container:hover  .invite_icon
+{
+    display: block;
+}
+.container.active  .settings_icon, .container:hover  .settings_icon
+{
+    display: block;
+}
+.container.active > div > span, .container:hover > div > span
+{
+    color: var(--white);
+}
+.hastag_icon
+{
+    font-size: 20px;
+    font-weight: bold;
+    color: var(--symbol);
+}
+.invite_icon
+{
+    display: none;
+    font-size: 16px;
+    font-weight: bold;
+    color: var(--symbol);
+    cursor: pointer;
+    transition: color 0.2s;
+    -webkit-transition: color 0.2s;
+    -moz-transition: color 0.2s;
+    -ms-transition: color 0.2s;
+    -o-transition: color 0.2s;
+}
+.invite_icon:hover
+{
+    color: var(--white);
+}
+.settings_icon
+{
+    display: none;
+    margin-left: 4px;
+    font-size: 16px;
+    font-weight: bold;
+    color: var(--symbol);
+    transition: color 0.2s;
+    -webkit-transition: color 0.2s;
+    -moz-transition: color 0.2s;
+    -ms-transition: color 0.2s;
+    -o-transition: color 0.2s;
+}
+.settings_icon:hover
+{
+    color: var(--white);
+}

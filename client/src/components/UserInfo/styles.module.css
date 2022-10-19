@@ -1,0 +1,64 @@
+.container
+{
+    grid-area: UI;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: var(--quaternary);
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 0px 0px;
+}
+.profile
+{
+    display: flex;
+    align-items: center;
+}
+.avatar
+{
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    background-color: var(--gray);
+}
+.user_data
+{
+    margin-left: 8px;
+    display: flex;
+    flex-direction: column;
+}
+.user_data > strong
+{
+    font-size: 13px;
+    color: var(--white);
+    display: block;
+}
+.user_data > span
+{
+    font-size: 13px;
+    color: var(--gray);
+}
+.icons
+{
+    display: flex;
+    align-items: center;
+}
+.settings_icon
+{
+    font-size: 20px;
+    color: var(--white);
+    opacity: 0.7;
+    cursor: pointer;
+    transition: opacity 0.2s;
+    -webkit-transition: opacity 0.2s;
+    -moz-transition: opacity 0.2s;
+    -ms-transition: opacity 0.2s;
+    -o-transition: opacity 0.2s;
+}
+.settings_icon:hover
+{
+    opacity: 1;
+}

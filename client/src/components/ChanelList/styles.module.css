@@ -1,0 +1,30 @@
+.container
+{
+    grid-area: CL;
+    display: flex;
+    flex-direction: column;
+    padding: 24px 9.5px 0px 16px;
+    background-color: var(--secondary);
+    height: 100%;
+}
+.category
+{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 6px;
+}
+.category > span
+{
+    text-transform: uppercase;
+    color: var(--gray);
+    font-size: 12px;
+    font-weight: 500;
+}
+.add_category
+{
+    width: 21px;
+    height: 21px;
+    color: var(--symbol);
+    cursor: pointer;
+}

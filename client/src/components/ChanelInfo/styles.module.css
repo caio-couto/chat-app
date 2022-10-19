@@ -1,0 +1,36 @@
+.container
+{
+    grid-area: CI;
+    display: flex;
+    align-items: center;
+    padding: 0px 17px;
+    background-color: var(--primary);
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 0px 0px;
+    z-index: 2;
+}
+.hastagIcon
+{
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--symbol);
+}
+.title
+{
+    margin-left: 9px;
+    font-size: 16px;
+    font-weight: bold;
+    color: white;
+}
+.separator
+{
+    height: 24px;
+    width: 1px;
+    background-color: var(--white);
+    opacity: 0.2;
+    margin: 0px 13px;
+}
+.description
+{
+    font-size: 15px;
+    color: var(--gray);
+}

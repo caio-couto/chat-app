@@ -1,13 +1,12 @@
 import React from "react";
 import styles from './styles.module.css';
-import ServerList from "../ServerList/index";
 
-function ServerName()
+function ServerName({ server })
 {
     return(
         <div className={styles.container}>
             <h1 className={styles.title}>
-                Servidor
+                {server.name}
             </h1>
             <div className={styles.expand_icon}/>
         </div>

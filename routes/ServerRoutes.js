@@ -1,13 +1,11 @@
 const routes = require('express').Router();
-const { createServer, getAllServers, editServer, deleteServer, newUserServer, newChanelServer, deleteChanelServer, deleteUserServer } = require('../controllers/serverController');
+const { getAllServers, getOneServer, getUserServers, newChannel, newUser, createServer} = require('../controllers/serverController');
 
 routes.get('/server', getAllServers);
+routes.get('/server/:id', getOneServer);
+routes.get('/server/user/:id', getUserServers);
 routes.post('/server', createServer);
-routes.put('/server/newuser/:id', newUserServer);
-routes.put('/server/newchanel/:id', newChanelServer);
-routes.put('/server/deletechanel/:id', deleteChanelServer);
-routes.put('/server/deleteuser/:id', deleteChanelServer);
-routes.put('/server/:id', editServer);
-routes.delete('/server/:id', deleteServer);
+routes.put('/server/user/new/:id', newUser);
+routes.put('/server/channel/new/:id', newChannel);
 
 module.exports = routes;

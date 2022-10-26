@@ -1,9 +1,18 @@
 const User = require('../model/User');
 
+module.exports.getAllUser = (req, res) =>
+{
+    User.find()
+    .then((data) =>
+    {
+        res.json(data);
+    })
+    .catch((error) => res.json({msg: 'Usuários não enconrados', error}));
+}
 module.exports.getUser = (req, res) =>
 {
     const id = req.params.id;
-    User.findById(id)
+    User.findById(id).populate('servers').populate('servers.channels')
     .then((data) =>
     {
         res.json(data);

@@ -1,17 +1,19 @@
 import React from "react";
 import styles from './styles.module.css';
+import { GoGear, GoPlus } from 'react-icons/go';
+import { TbHash } from 'react-icons/tb';
 
-function ChanelButton()
+function ChanelButton({ name })
 {
     return(
         <div className={styles.container}>
             <div>
-                <span className={styles.hastag_icon}>#</span>
-                <span>Chanel name</span>
+                <span className={styles.hastag_icon}><TbHash/></span>
+                <span>{name}</span>
             </div>
             <div>
-                <div className={styles.invite_icon}>+</div>
-                <div className={styles.settings_icon}>o</div>
+                <div className={styles.invite_icon}><GoPlus/></div>
+                <div className={styles.settings_icon}><GoGear/></div>
             </div>
         </div>
     );

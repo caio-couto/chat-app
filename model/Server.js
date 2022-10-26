@@ -10,14 +10,14 @@ const serverSchema = new mongoose.Schema(
     [
         {
             type: mongoose.Types.ObjectId,
-            ref: 'User'
+            ref: 'User',
         }
     ],
-    chanels:
+    channels:
     [
         {
             type: mongoose.Types.ObjectId,
-            ref: 'Chanel'
+            ref: 'Channel',
         }
     ]
 });

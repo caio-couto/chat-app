@@ -78,6 +78,10 @@ io.of(/^\/\w+$/).on('connection', (socket) =>
     {
         const deleteMessage = await Message.findByIdAndDelete(messageId);
     });
+    socket.on('new-channel', () =>
+    {
+        socket.emit('new-channel')
+    })
 });
 
 server.listen(port, () =>

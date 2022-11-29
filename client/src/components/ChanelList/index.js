@@ -1,14 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useParams, useLocation, Link, redirect } from "react-router-dom";
 import styles from './styles.module.css';
 import ChanelButton from "../ChanelButton/index";
+import { SocketioContext } from "../SocketioContext";
 
-function ChanelList({ server, socket })
+function ChanelList()
 {
     let location = useLocation().pathname.split('/');
     const [Channels, setChannels] = useState([]);
-    
-    useEffect(() =>
+    const [socket, setSocket] = useContext(SocketioContext);
+
+    function getChannels()
     {
         fetch(`http://localhost:5000/channel/server/${location[1]}`,
         {
@@ -21,7 +23,20 @@ function ChanelList({ server, socket })
             setChannels(data);
         })
         .catch((error) => console.log(error));
+    }
+    
+    useEffect(() =>
+    {
+        getChannels();
     },[location[1]]);
+
+    useEffect(() =>
+    {
+        socket.on('new-channel', () =>
+        {
+            getChannels();
+        });
+    }, [socket]);
 
     function handleClick(event)
     {

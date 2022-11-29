@@ -52,7 +52,11 @@ module.exports.newChannel = (req, res) =>
     Server.findByIdAndUpdate(id, { $push: { channels: channel } })
     .then((data) =>
     {
-        res.json(data);
+        Server.findById(id).populate('users')
+        .then((data) =>
+        {
+            res.json(data)
+        })
     })
     .catch((error) => res.json(error));
 }

@@ -1,5 +1,6 @@
 .container
 {
+    position: relative;
     display: flex;
     align-items: center;
     padding: 4px 16px;
@@ -64,10 +65,36 @@
     font-weight: bold;
     font-size: 11px;
 }
-
 .content
 {
   text-align: left;
   font-size: 16px;
   color: var(--white);
+}
+.options
+{
+    opacity: 0;
+}
+.container:hover
+{
+    background-color: #2b2d3034;
+}
+.container:hover .options
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    opacity: 1;
+    width: 100px;
+    height: 25px;
+    right: 10px;
+    top: -15px;
+    background-color: white;
+    position: absolute;
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    -o-border-radius: 4px;
 }

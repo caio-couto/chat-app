@@ -1,22 +1,33 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styles from './styles.module.css';
 import ServerName from "../ServerName/index";
 import ChanelInfo from "../ChanelInfo";
 import ChanelList from "../ChanelList";
 import UserInfo from "../UserInfo";
 import UserList from "../UserList";
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
+import { ServerProvider } from "../ServerContext";
+import { SocketioContext } from '../SocketioContext';
 
-function SecondaryRoutes({ server, user })
+function SecondaryRoutes({ user })
 {
+    const [socket, setSocket, defineSocket] = useContext(SocketioContext);
+
+    useEffect(() =>
+    {
+        defineSocket();
+    }, [])
+
     return(
         <div className={styles.grid}>
-        <ServerName server={server}/>
-        <ChanelInfo />
-        <ChanelList server={server}/>
-        <UserInfo user={user}/>
-        <Outlet/>
-        <UserList />
+            <ServerProvider>
+                <UserList />
+                <ServerName/>
+            </ServerProvider>
+            <ChanelList/>
+            <ChanelInfo />
+            <UserInfo user={user}/>
+            <Outlet/>
         </div>
     );
 }

@@ -1,13 +1,13 @@
-/* import {BrowserRouter as Router, Routes, Route} from 'react-router-dom'; */
-import ServerList from "./components/ServerList";
-import Layout from './components/Layout/index';
-import './styles/globalStyles.module.css';
-/* import ServerBar from './components/ServerBar'; */
+import React, { useContext, useEffect, useState } from "react";
+import { SocketioProvider }  from './components/SocketioContext';
+import Layout from './components/layout';
 
 function App() 
 {
   return (
-    <Layout/>
+    <SocketioProvider>
+      <Layout/>
+    </SocketioProvider>
   );
 }
 

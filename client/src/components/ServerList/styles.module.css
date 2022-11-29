@@ -19,3 +19,88 @@
     border-bottom: 2px solid var(--quaternary);
     margin-bottom: 8px;
 }
+.modal_container
+{
+    width: 450px;
+}
+.modal_container .title
+{
+    text-align: center;
+}
+.modal_container .title p
+{
+    color: rgb(96, 96, 96);
+}
+.modal_container .content
+{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.modal_container .content .server_icon
+{
+    margin: 20px 0px 20px 0px;
+    width: 80px;
+    height: 80px;
+    background-color: transparent;
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    border: 3px solid rgb(74, 74, 74);
+    border-style: dashed;
+}
+.modal_container .content form
+{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.modal_container .content form label
+{
+    font-size: 12px;
+    font-weight: bold;
+    color: rgb(96, 96, 96);
+}
+.modal_container .content form input
+{
+    margin: 10px 0px 10px 0px;
+    height: 45px;
+    font-size: 18px;
+    font-weight: lighter;
+    padding: 0px 8px 0px 8px;
+    background-color: rgb(198, 198, 198);
+    color: rgb(69, 69, 69);
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+}
+.modal_container .content form input::placeholder
+{
+    font-weight: lighter;
+}
+.modal_container .content form button
+{
+    cursor: pointer;
+    width: 200px;
+    height: 40px;
+    margin: auto;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    background-color: var(--discord);
+    border-radius: 50px;
+    -webkit-border-radius: 50px;
+    -moz-border-radius: 50px;
+    -ms-border-radius: 50px;
+    -o-border-radius: 50px;
+}
+.modal_container .content form button:hover
+{
+    background-color: #5e73b9;
+}

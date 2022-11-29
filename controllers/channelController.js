@@ -36,7 +36,7 @@ module.exports.createChannel = (req, res) =>
     Channel.create({name, belongsTo})
     .then((data) =>
     {
-        res.json({msg: 'Canal criado com sucesso', data});
+        res.json(data);
     })
     .catch((error) => res.json({msg: 'Canal não criado', error}));
 }

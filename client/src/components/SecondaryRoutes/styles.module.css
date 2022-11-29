@@ -4,6 +4,10 @@
     height: 100%;
     display: flex;
 }
+a 
+{
+    text-decoration: none;
+}
 .grid
 {
     display: grid;

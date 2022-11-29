@@ -3,6 +3,7 @@ const app = express();
 const http = require('http');
 const server = http.createServer(app);
 const { Server } = require("socket.io");
+
 const Message = require('./model/Message');
 
 require('dotenv').config();
@@ -17,6 +18,7 @@ const MessageRoutes = require('./routes/MessageRoutes');
 const path = require('path');
 const port = 5000;
 const cors = require('cors');
+const { use } = require('./routes/UserRoutes');
 
 
 app.use(express.urlencoded({extended: true}));
@@ -52,34 +54,29 @@ app.use('/', ServerRoutes);
 app.use('/', ChannelRoutes);
 app.use('/', MessageRoutes);
 
-/* io.on('connection', (socket) =>
-{
-    console.log('usuário conectado');
-    io.emit('welcome', 'hello this is websocket')
-}); */
 
-
-const channel = io.of(/^\/\w+$/).on("connection", (socket) =>
+io.of(/^\/\w+$/).on('connection', (socket) =>
 {
-    console.log(`usuário conectado: ${socket.id}, canal: ${socket.nsp.name}`);
-    socket.on('chat-msg', async (msg) =>
+    console.log(socket.id);
+    socket.on('join-room', async(roomName) =>
     {
-        const message = await Message.create(msg);
-        const savedMessage = await Message.find().where({_id: message._id}).populate('sender');
-        channel.emit('chat-msg', savedMessage);
+        socket.rooms.forEach((room) =>
+        {
+            socket.leave(room)
+        });
+        socket.join(roomName);
+        const history = await Message.find().where(roomName);
+        io.of(socket.nsp.name.split('/')[1]).to(roomName).emit('history', history);
     });
-    socket.on('all-messages-channel', () =>
-    {   
-        channel.emit('chat-msg', allMessages1);
-    });
-    socket.on('nickname', (nickName) =>
+    socket.on('client-message', async ({content, sender, channel}) =>
     {
-        channel.emit('chat-msg', `Usuário ${nickName} conectou.`);
-        socket.nickName = nickName;
+        const saveMessage = await (await Message.create({content, sender, channel})).populate('sender');
+        const senderName = {name:saveMessage.sender.name};
+        io.of(socket.nsp.name.split('/')[1]).to(channel).emit('server-message', {content, sender:senderName , channel})
     });
-    socket.on('status', (status) =>
+    socket.on('delete-message', async ({ messageId }) =>
     {
-        socket.broadcast.emit('status', status);
+        const deleteMessage = await Message.findByIdAndDelete(messageId);
     });
 });
 

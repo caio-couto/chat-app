@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import UserRow from "../UserRow";
 import styles from './styles.module.css';
+import { ServerContext } from "../ServerContext";
 import { useLocation } from "react-router-dom";
 
 function UserList()
 {
-    let location = useLocation().pathname.split('/');
+    const [server, setServer] = useContext(ServerContext);
     const [onlineUsers, setOnlineUsers] = useState([]);
     const [offlineUsers, setOfflineUsers] = useState([]);
+    const location = useLocation().pathname.split('/');
     
     useEffect(() =>
     {
@@ -19,6 +21,7 @@ function UserList()
         .then((resp) => resp.json())
         .then((data) =>
         {
+            setServer(data)
             setOnlineUsers(data.users.filter((element) =>
             {
                 return element.status == true;

@@ -1,70 +1,46 @@
-import React, { useEffect, useState } from "react";
-import styles from './styles.module.css';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import React, { useContext, useEffect, useState } from "react";
 import ServerList from "../ServerList";
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
-import SecondaryRoutes from "../SecondaryRoutes";
-import TertiaryRoutes from "../TertiaryRoutes";
+import SecondaryRoutes from '../SecondaryRoutes';
+import TertiaryRoutes from '../TertiaryRoutes';
+import styles from './styles.module.css';
+import { SocketioContext } from '../SocketioContext';
 
-function Layout ()
+function Layout() 
 {
-    const [servers, setServers] = useState([]);
-    const [user, setUser] = useState({})
+  const [user, setUser] = useState({});
 
-    useEffect(() =>
+  function getRandomArbitrary(min, max) {
+    return Math.floor(Math.random() * (max - min) + min);
+  }
+
+  useEffect(() =>
+  {
+    fetch(`http://localhost:5000/user/${getRandomArbitrary(0, 2) == 1? '63503c4c34476e0fd0f79007' : '63503e6c6e687d8b1b7c4e89'}`, 
     {
-        fetch('http://localhost:5000/user/63503e6c6e687d8b1b7c4e89',
-        {
-            method: 'GET',
-            headers: {'Content-Type': 'application/json'},
-        })
-        .then((resp) => resp.json())
-        .then((data) =>
-        {
-            setServers(data.servers);
-            setUser(data)
-        })
-        .catch((error) => console.log(error)); 
-        
-    }, [])
+    method: 'GET',
+    headers: {'Content-Type': 'application/json'},
+    },)
+    .then((resp) => resp.json())
+    .then((data) =>
+    {
+      setUser(data);
+    })
+    .catch((error) => console.log(error));
+  }, []);
 
-    return(
-        <Router>
-            <div className={styles.main}>
-                <ServerList servers={servers}/>
-                <Routes>
-                    {
-                        servers.map((server) => (
-                            <Route key={server._id} path={`:${server.id}`} element={<SecondaryRoutes server={server} user={user}/>}>
-                                {
-                                    server.channels.map((id) => (
-                                        <Route key={id} path={`:${id}`} element={<TertiaryRoutes user={user}/>}/>
-                                    ))
-                                }
-                            </Route>
-                        ))
-                    }
-                </Routes>
-            </div>
-        </Router>
-    );
+  return (
+    <Router>
+      <div className={styles.main}>
+        <ServerList servers={user.servers} userId={user._id}/>
+        <Routes>
+          <Route path='/:id' element={<SecondaryRoutes user={user}/>}>
+            <Route path='/:id/:id' element={<TertiaryRoutes user={user}/>}/>
+          </Route>
+        </Routes>
+      </div>
+    </Router>
+  );
 }
 
 export default Layout;
-
-{/* <Router>
-<div className={styles.main}>
-    <ServerList/>
-    <Routes>
-    <div className={styles.grid}>
-        <ServerName />
-        <ChanelInfo />
-        <ChanelList />
-        <UserInfo />
-        <div className={styles.channelData_wrapper}>
-            <ChanelData />
-        </div>
-        <UserList />
-    </div>
-    </Routes>
-</div>
-</Router> */}

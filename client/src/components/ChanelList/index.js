@@ -3,7 +3,7 @@ import { useParams, useLocation, Link, redirect } from "react-router-dom";
 import styles from './styles.module.css';
 import ChanelButton from "../ChanelButton/index";
 
-function ChanelList({ server })
+function ChanelList({ server, socket })
 {
     let location = useLocation().pathname.split('/');
     const [Channels, setChannels] = useState([]);
@@ -23,6 +23,11 @@ function ChanelList({ server })
         .catch((error) => console.log(error));
     },[location[1]]);
 
+    function handleClick(event)
+    {
+        socket?.emit('join-room', location[2])
+    }
+
     return(
         <div className={styles.container}>
             <div className={styles.category}>
@@ -33,7 +38,7 @@ function ChanelList({ server })
                 Channels.map((channel) =>
                 (
                     <Link key={channel._id} to={channel._id}>
-                        <ChanelButton name={channel.name}/>
+                        <ChanelButton name={channel.name} handleClick={handleClick}/>
                     </Link>
                 ))
             }

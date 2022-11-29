@@ -1,5 +1,6 @@
 .button
 {
+    user-select: none;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -33,4 +34,12 @@
     -ms-border-radius: 16px;
     -o-border-radius: 16px;
     background-color: var(--discord);
+}
+.button div
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 40px;
+    color: var(--server-green);
 }

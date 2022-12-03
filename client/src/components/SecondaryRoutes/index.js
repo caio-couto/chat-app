@@ -6,28 +6,47 @@ import ChanelList from "../ChanelList";
 import UserInfo from "../UserInfo";
 import UserList from "../UserList";
 import { Outlet, useLocation } from 'react-router-dom';
-import { ServerProvider } from "../ServerContext";
-import { SocketioContext } from '../SocketioContext';
+import { UserContext } from "../UserContext";
+import { ServerContext } from "../ServerContext";
+import { ChannelProvider } from "../ChannelContext";
+import { SocketContext } from "../SocketContext";
 
-function SecondaryRoutes({ user })
+function SecondaryRoutes({ isDirect = false })
 {
-    const [socket, setSocket, defineSocket] = useContext(SocketioContext);
+    const [user] = useContext(UserContext);
+    const [socket, setSocket, defineSocket] = useContext(SocketContext);
+    const [servers, setServers, server, setServer, getServer, updateServer] = useContext(ServerContext);
+    const locate = useLocation().pathname.split('/')[1];
 
     useEffect(() =>
     {
-        defineSocket();
-    }, [])
+        if(locate != 'direct')
+        {
+            getServer(locate);
+        }
+    }, [locate]);
 
     return(
         <div className={styles.grid}>
-            <ServerProvider>
-                <UserList />
-                <ServerName/>
-            </ServerProvider>
-            <ChanelList/>
-            <ChanelInfo />
+            <ChannelProvider>
+                {
+                    isDirect? 
+                    <>
+                        <ServerName isDirect={true} socket={socket}/>
+                        <ChanelList socket={socket} user={user} isDirect={true}/>
+                        <ChanelInfo isDirect={true}/>
+                    </>
+                    :
+                    <>
+                        <UserList server={server}/>
+                        <ServerName server={server} socket={socket}/>
+                        <ChanelList socket={socket} server={server}/>
+                        <ChanelInfo/>
+                    </>
+                }
             <UserInfo user={user}/>
             <Outlet/>
+            </ChannelProvider>
         </div>
     );
 }

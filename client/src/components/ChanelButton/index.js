@@ -3,13 +3,13 @@ import styles from './styles.module.css';
 import { GoGear, GoPlus } from 'react-icons/go';
 import { TbHash } from 'react-icons/tb';
 
-function ChanelButton({ name, handleClick })
+function ChanelButton({ channel, handleClick, isDirect = false })
 {
     return(
-        <div className={styles.container} onClick={(event) => {handleClick(event)}}>
+        <div className={styles.container} onClick={() => {handleClick(channel, isDirect)}}>
             <div>
                 <span className={styles.hastag_icon}><TbHash/></span>
-                <span>{name}</span>
+                <span>{isDirect? channel.friend.name : channel?.name}</span>
             </div>
             <div>
                 <div className={styles.invite_icon}><GoPlus/></div>

@@ -23,6 +23,23 @@ const userSchema = new mongoose.Schema(
             type: mongoose.Types.ObjectId,
             ref: 'Server'
         }
+    ],
+    friends: 
+    [
+        {
+            direct:
+            {
+                type: mongoose.Types.ObjectId,
+                ref: 'Channel',
+                required: true
+            },
+            friend:
+            {
+                type: mongoose.Types.ObjectId,
+                ref: 'User',
+                required: true
+            }
+        }
     ]
 },
 {

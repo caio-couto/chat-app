@@ -2,58 +2,63 @@ import React, { useContext, useEffect, useState } from "react";
 import { useParams, useLocation, Link, redirect } from "react-router-dom";
 import styles from './styles.module.css';
 import ChanelButton from "../ChanelButton/index";
-import { SocketioContext } from "../SocketioContext";
+import { ChannelContext } from "../ChannelContext";
 
-function ChanelList()
+function ChanelList({ user, isDirect = false, server, socket, updateServer })
 {
-    let location = useLocation().pathname.split('/');
-    const [Channels, setChannels] = useState([]);
-    const [socket, setSocket] = useContext(SocketioContext);
+    const [channel, setChannel, direct, setDirect, currentChannel, setCurrentChannel, currentDirect, setCurrentDirect, updateChannel] = useContext(ChannelContext);
+    const locate = useLocation().pathname.split('/')[1];
+    const [lsitChannel, setListChannel] = useState([]);
 
-    function getChannels()
+    function handleClick(currentChannel, isDirect)
     {
-        fetch(`http://localhost:5000/channel/server/${location[1]}`,
+        if(isDirect)
         {
-            method: 'GET',
-            headers: {'Content-Type': 'application/json'},
-        })
-        .then((resp) => resp.json())
-        .then((data) =>
+            setCurrentDirect(currentChannel);
+        }
+        else
         {
-            setChannels(data);
-        })
-        .catch((error) => console.log(error));
+            setCurrentChannel(currentChannel);
+        }
     }
-    
-    useEffect(() =>
-    {
-        getChannels();
-    },[location[1]]);
 
     useEffect(() =>
     {
-        socket.on('new-channel', () =>
+        setListChannel(channel);
+    }, [locate, channel]);
+
+    useEffect(() =>
+    {
+        socket.on('new-channel', ({newChannel}) =>
         {
-            getChannels();
+            setListChannel(arr => [...arr, newChannel]);
         });
-    }, [socket]);
 
-    function handleClick(event)
-    {
-        socket?.emit('join-room', location[2])
-    }
+        return () =>
+        {
+            socket.off('new-channel');
+        }
+    }, []);
 
     return(
         <div className={styles.container}>
             <div className={styles.category}>
-                <span>Canais de texto</span>
+                <span>{isDirect ? 'Mensagens diretas' : 'Canais de texto'}</span>
                 <div className={styles.add_category}></div>
             </div>
             {
-                Channels.map((channel) =>
+                isDirect?                 
+                direct?.map((channel, index) =>
                 (
-                    <Link key={channel._id} to={channel._id}>
-                        <ChanelButton name={channel.name} handleClick={handleClick}/>
+                    <Link key={index} to={channel.direct}>
+                        <ChanelButton channel={channel} isDirect={true} handleClick={handleClick}/>
+                    </Link>
+                ))
+                :
+                lsitChannel?.map((channel, index) =>
+                (
+                    <Link key={index} to={channel._id}>
+                        <ChanelButton channel={channel} handleClick={handleClick}/>
                     </Link>
                 ))
             }

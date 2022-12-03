@@ -9,7 +9,12 @@ const channelSchema = new mongoose.Schema(
         min: 3,
         max: 15,
     },
-    desciption:
+    isDirect:
+    {
+        type: Boolean,
+        default: false
+    },
+    description:
     {
         type: String,
         min: 3,

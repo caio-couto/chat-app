@@ -19,6 +19,8 @@ const path = require('path');
 const port = 5000;
 const cors = require('cors');
 const { use } = require('./routes/UserRoutes');
+const Channel = require('./model/Channel');
+const ServerClient = require('./model/Server');
 
 
 app.use(express.urlencoded({extended: true}));
@@ -58,15 +60,13 @@ app.use('/', MessageRoutes);
 io.of(/^\/\w+$/).on('connection', (socket) =>
 {
     console.log(socket.id);
-    socket.on('join-room', async(roomName) =>
+    socket.on('join-room', async({locate}) =>
     {
-        socket.rooms.forEach((room) =>
-        {
-            socket.leave(room)
-        });
-        socket.join(roomName);
-        const history = await Message.find().where(roomName);
-        io.of(socket.nsp.name.split('/')[1]).to(roomName).emit('history', history);
+        socket.join(locate);
+        const history = await Message.find().where({channel: locate}).populate('sender');
+        io.of(socket.nsp.name.split('/')[1]).to(locate).emit('history', history);
+        io.of(socket.nsp.name.split('/')[1]).to(locate).emit('room-connection', `usuário ${socket.id}, conectado a room ${locate} rooms totais ${JSON.stringify(socket.rooms)}`);
+        console.log(socket.rooms);
     });
     socket.on('client-message', async ({content, sender, channel}) =>
     {
@@ -74,13 +74,15 @@ io.of(/^\/\w+$/).on('connection', (socket) =>
         const senderName = {name:saveMessage.sender.name};
         io.of(socket.nsp.name.split('/')[1]).to(channel).emit('server-message', {content, sender:senderName , channel})
     });
-    socket.on('delete-message', async ({ messageId }) =>
+    socket.on('delete-message', async ({messageId, locate }) =>
     {
         const deleteMessage = await Message.findByIdAndDelete(messageId);
+        const history = await Message.find().where({channel: locate}).populate('sender');
+        io.of(socket.nsp.name.split('/')[1]).to(locate).emit('history', history);
     });
-    socket.on('new-channel', () =>
+    socket.on('new-channel', async ({newChannel}) =>
     {
-        socket.emit('new-channel')
+        io.of(socket.nsp.name.split('/')[1]).emit('new-channel', {newChannel});
     })
 });
 

@@ -14,7 +14,7 @@ module.exports.getOneServer = (req, res) =>
 {
     const id = req.params.id;
 
-    Server.findById(id).populate('users')
+    Server.findById(id).populate('users').populate('channels')
     .then((data) =>
     {
         res.json(data)
@@ -62,8 +62,8 @@ module.exports.newChannel = (req, res) =>
 }
 module.exports.createServer = (req, res) =>
 {
-    const { name } = req.body;
-    Server.create({name})
+    const { name, isDirect } = req.body;
+    Server.create({name, isDirect})
     .then((data) =>
     {
         res.json(data);

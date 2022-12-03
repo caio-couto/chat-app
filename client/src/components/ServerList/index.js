@@ -3,22 +3,26 @@ import { Link, redirect, useLocation } from "react-router-dom";
 import styles from './styles.module.css';
 import ServerButton from "../ServerButton/index";
 import CreateServer from "../Modals/CreateServer/index";
+import { ServerContext } from "../ServerContext";
+import { UserContext } from "../UserContext";
 
-function ServerList({ servers, userId })
+function ServerList()
 {
     const [modal, setModal] = useState(false);
     const [name, setName] = useState('');
-    const [userServers, setUserServers] = useState([]);
+    const [user, setUser] = useContext(UserContext);
+    const [servers, setServers] = useState([]);
+    const locate = window.location.pathname.split('/')[1];
+
+    useEffect(() =>
+    {
+        setServers(user.servers);
+    }, [user]);
 
     function handleClick()
     {
         modal? setModal(false) : setModal(true);
     }
-
-    useEffect(() =>
-    {
-        setUserServers(servers);
-    }, [servers]);
 
     function handleSubmit(event)
     {
@@ -50,7 +54,7 @@ function ServerList({ servers, userId })
                 .then((resp) => resp.json())
                 .then((data) =>
                 {
-                    setUserServers(arr => [...arr, data]);
+                    setServers(arr => [...arr, data]);
                     setModal(false);
                 })
             })
@@ -58,12 +62,12 @@ function ServerList({ servers, userId })
             {
                 method: 'PUT',
                 headers:{ 'Content-Type': 'application/json',},
-                body: JSON.stringify({user: userId}),
+                body: JSON.stringify({user: user._id}),
             })
             .then((resp) => resp.json())
             .then(() =>
             {
-                fetch(`http://localhost:5000/user/newserver/${userId}`,
+                fetch(`http://localhost:5000/user/newserver/${user._id}`,
                 {
                     method: 'PUT',
                     headers:{ 'Content-Type': 'application/json',},
@@ -83,14 +87,21 @@ function ServerList({ servers, userId })
         setName(event.target.value);
     }
 
+    function handleServerChange()
+    {
+        console.log(locate);
+    }
+
     return(
         <div className={styles.container}>
-            <ServerButton isHome={true}/>
-            <div className={styles.separator}/>
+            <Link to='/direct'>
+                <ServerButton isHome={true} handleServerChange={handleServerChange}/>
+            </Link>
+            <span className={styles.separator}/>
             {
-                userServers?.map((server) =>
+                servers?.map((server, index) => 
                 (
-                    <Link key={server._id} to={`${server._id}/${server.channels[0]}`}>
+                    <Link key={index} to={`${server._id}`}>
                         <ServerButton/>
                     </Link>
                 ))

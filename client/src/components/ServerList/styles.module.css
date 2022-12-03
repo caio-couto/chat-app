@@ -13,6 +13,12 @@
 {
     display: none;
 }
+.server_direct
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 .separator
 {
     width: 32px;

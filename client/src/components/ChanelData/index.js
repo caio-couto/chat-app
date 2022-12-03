@@ -2,42 +2,38 @@ import React, { useRef, useEffect, useState, useContext } from 'react';
 import ChannelMessage from '../ChannelMessage';
 import { useLocation } from 'react-router-dom';
 import styles from './styles.module.css';
-import { SocketioContext } from "../SocketioContext";
+import { SocketContext } from '../SocketContext';
 
 function ChanelData({ user })
 {
   const locate = useLocation().pathname.split('/')[2];
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
-  const [socket, setSocket] = useContext(SocketioContext);
-
-  useEffect(() =>
-  {
-    fetch(`http://localhost:5000/message/${locate}`, 
-    {
-      method: 'GET',
-      headers: {'Content-Type': 'application/json'},
-    },)
-    .then((resp) => resp.json())
-    .then((data) =>
-    {
-      setMessages(data);
-    })
-    .catch((error) => console.log(error));
-  }, [locate]);
+  const [socket, setSocket] = useContext(SocketContext);
   
   useEffect(() =>
   {
-    socket.emit('join-room', locate);
+    socket.emit('join-room', {locate});
+    socket.on('room-connection', (message) =>
+    {
+      console.log(message);
+    });
  
     return () =>
     {
-      socket.off('join-room') 
+      socket.off('room-connection');
+      socket.off('join-room');
     }
   }, [locate]);
 
   useEffect(() =>
   {
+
+    socket.on('history', (history)=>
+    {
+      setMessages(history);
+    })
+
     socket.on('server-message', (data) =>
     {
       setMessages(arr => [...arr, data]);
@@ -45,10 +41,12 @@ function ChanelData({ user })
 
     return () =>
     {
-      socket.off('server-message')
+      socket.off('server-message');
+      socket.off('delete-message');
+      socket.off('history');
     }
 
-  }, [socket])
+  }, []);
 
   function handleChange(event)
   {
@@ -57,18 +55,22 @@ function ChanelData({ user })
 
   function handleSubmit(event)
   {
+    event.preventDefault();
     const content = message;
     const sender = user._id;
     const channel = locate;
-
-    event.preventDefault();
     socket.emit('client-message', {content, sender, channel});
     setMessage('');
   }
 
   function handleClick(messageId)
   {
-    socket.emit('delete-message', {messageId});
+    socket.emit('delete-message', {messageId, locate});
+    deleteMessage(messageId);
+  }
+
+  function deleteMessage(messageId)
+  {
     const deleteMessage = messages.filter((message) => message._id != messageId);
     setMessages(deleteMessage);
   }

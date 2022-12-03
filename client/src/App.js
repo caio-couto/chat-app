@@ -1,13 +1,19 @@
 import React, { useContext, useEffect, useState } from "react";
-import { SocketioProvider }  from './components/SocketioContext';
+import { UserProvider } from "./components/UserContext";
+import { SocketProvider }  from './components/SocketContext';
+import { ServerProvider } from "./components/ServerContext";
 import Layout from './components/layout';
 
 function App() 
 {
   return (
-    <SocketioProvider>
-      <Layout/>
-    </SocketioProvider>
+    <UserProvider>
+      <ServerProvider>
+        <SocketProvider >
+          <Layout/>
+        </SocketProvider>
+      </ServerProvider>
+    </UserProvider>
   );
 }
 

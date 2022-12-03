@@ -1,3 +1,4 @@
+const Channel = require('../model/Channel');
 const User = require('../model/User');
 
 module.exports.getAllUser = (req, res) =>
@@ -12,7 +13,7 @@ module.exports.getAllUser = (req, res) =>
 module.exports.getUser = (req, res) =>
 {
     const id = req.params.id;
-    User.findById(id).populate('servers').populate('servers.channels')
+    User.findById(id).populate('servers').populate('friends.friend')
     .then((data) =>
     {
         res.json(data);
@@ -53,6 +54,28 @@ module.exports.newServerUser = (req, res) =>
         res.json({msg: 'Usuário editado com sucesso', data});
     })
     .catch((error) => res.json({msg: 'Usuário não editado', error}));
+}
+module.exports.newFriend = (req, res) =>
+{
+    const id = req.params.id;
+    const { friend } = req.body;
+
+    Channel.create({name: 'direct', isDirect: true})
+    .then((channel) =>
+    {
+        User.findByIdAndUpdate(id, { $push: {friends:{direct: channel._id, friend}}})
+        .then((user1) =>
+        {
+            User.findByIdAndUpdate({_id: friend}, { $push: {friends:{direct: channel._id, friend: id}}})
+            .then((user2) =>
+            {
+                res.json({user1, user2});
+            })
+            .catch((error) => res.json({error, user:'user2'}));
+        })
+        .catch((error) => res.json({error, user:'user1'}));
+    })
+    .catch((error) => res.json({msg: 'Canal não criado', error}))
 }
 module.exports.deleteServerUser = async (req, res) =>
 {

@@ -29,14 +29,14 @@ function ChanelList({ user, isDirect = false, server, socket, updateServer })
 
     useEffect(() =>
     {
-        socket.on('new-channel', ({newChannel}) =>
+        socket?.on('new-channel', ({newChannel}) =>
         {
             setListChannel(arr => [...arr, newChannel]);
         });
 
         return () =>
         {
-            socket.off('new-channel');
+            socket?.off('new-channel');
         }
     }, []);
 

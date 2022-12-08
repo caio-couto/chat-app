@@ -13,37 +13,37 @@ function ChanelData({ user })
   
   useEffect(() =>
   {
-    socket.emit('join-room', {locate});
-    socket.on('room-connection', (message) =>
+    socket?.emit('join-room', {locate});
+    socket?.on('room-connection', (message) =>
     {
       console.log(message);
     });
  
     return () =>
     {
-      socket.off('room-connection');
-      socket.off('join-room');
+      socket?.off('room-connection');
+      socket?.off('join-room');
     }
   }, [locate]);
 
   useEffect(() =>
   {
 
-    socket.on('history', (history)=>
+    socket?.on('history', (history)=>
     {
       setMessages(history);
     })
 
-    socket.on('server-message', (data) =>
+    socket?.on('server-message', (data) =>
     {
       setMessages(arr => [...arr, data]);
     });
 
     return () =>
     {
-      socket.off('server-message');
-      socket.off('delete-message');
-      socket.off('history');
+      socket?.off('server-message');
+      socket?.off('delete-message');
+      socket?.off('history');
     }
 
   }, []);
@@ -59,13 +59,13 @@ function ChanelData({ user })
     const content = message;
     const sender = user._id;
     const channel = locate;
-    socket.emit('client-message', {content, sender, channel});
+    socket?.emit('client-message', {content, sender, channel});
     setMessage('');
   }
 
   function handleClick(messageId)
   {
-    socket.emit('delete-message', {messageId, locate});
+    socket?.emit('delete-message', {messageId, locate});
     deleteMessage(messageId);
   }
 

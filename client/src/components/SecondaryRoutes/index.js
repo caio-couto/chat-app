@@ -27,7 +27,7 @@ function SecondaryRoutes({ isDirect = false })
     }, [locate]);
 
     return(
-        <div className={styles.grid}>
+        <div className={isDirect? `${styles.grid} ${styles.direct}` : styles.grid}>
             <ChannelProvider>
                 {
                     isDirect? 

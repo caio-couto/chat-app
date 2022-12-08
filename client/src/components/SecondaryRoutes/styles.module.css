@@ -20,6 +20,13 @@ a
     'UI CD UL';
     height: 100vh;
 }
+.grid.direct
+{
+    grid-template-areas: 
+    'SN CI CI'
+    'CL CD CD'
+    'UI CD CD';
+}
 .channelData_wrapper
 {
     grid-area: CD;

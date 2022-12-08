@@ -50,7 +50,7 @@ function ServerName({ isDirect = false, server, socket })
                 setDropDown(false);
                 if(channel)
                 {
-                    socket.emit('new-channel', {newChannel: currenrChannel})
+                    socket?.emit('new-channel', {newChannel: currenrChannel})
                     setChannel(arr => [...arr, currenrChannel]);
                 }
             })

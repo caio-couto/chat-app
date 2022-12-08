@@ -8,7 +8,12 @@ function ChanelButton({ channel, handleClick, isDirect = false })
     return(
         <div className={styles.container} onClick={() => {handleClick(channel, isDirect)}}>
             <div>
-                <span className={styles.hastag_icon}><TbHash/></span>
+                {
+                    isDirect?
+                    <div className={styles.avatar}></div>
+                    :
+                    <span className={styles.hastag_icon}><TbHash/></span>
+                }
                 <span>{isDirect? channel.friend.name : channel?.name}</span>
             </div>
             <div>

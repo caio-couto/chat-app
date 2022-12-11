@@ -6,6 +6,7 @@
     padding: 24px 9.5px 0px 16px;
     background-color: var(--secondary);
     height: 100%;
+    overflow-y: auto;
 }
 .category
 {

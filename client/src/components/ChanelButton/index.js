@@ -3,10 +3,10 @@ import styles from './styles.module.css';
 import { GoGear, GoPlus } from 'react-icons/go';
 import { TbHash } from 'react-icons/tb';
 
-function ChanelButton({ channel, handleClick, isDirect = false })
+function ChanelButton({ channel, isDirect = false, handleChangeCurrent })
 {
     return(
-        <div className={styles.container} onClick={() => {handleClick(channel, isDirect)}}>
+        <div className={styles.container} onClick={() => {handleChangeCurrent(channel)}}>
             <div>
                 {
                     isDirect?

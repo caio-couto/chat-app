@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import { ServerContext } from "./ServerContext";
 import { UserContext } from "./UserContext";
 
@@ -6,27 +7,20 @@ export const ChannelContext = createContext();
 
 export function ChannelProvider({ children })
 {
-    const [channel, setChannel] = useState(null);
-    const [direct, setDirect] = useState(null);
-    const [currentChannel, setCurrentChannel] = useState(null);
-    const [currentDirect, setCurrentDirect] = useState(null);
-
     const [servers, setServers, server, setServer, getServer, updateServer] = useContext(ServerContext);
     const [user] = useContext(UserContext);
+    const [direct, setDirect] = useState(null);
+    const [channels, setChannels] = useState(null);
+    const [current, setCurrent] = useState(null);
 
     useEffect(() =>
     {
-        updateChannel();
-    }, [server, user, channel]);
-
-    function updateChannel()
-    {
-        setChannel(server?.channels);
         setDirect(user?.friends);
-    }
+        setChannels(server?.channels);
+    }, [server, user]);
 
     return(
-        <ChannelContext.Provider value={[channel, setChannel, direct, setDirect, currentChannel, setCurrentChannel, currentDirect, setCurrentDirect, updateChannel]}>
+        <ChannelContext.Provider value={[channels, setChannels, direct, setDirect, current, setCurrent]}>
             {children}
         </ChannelContext.Provider>
     );

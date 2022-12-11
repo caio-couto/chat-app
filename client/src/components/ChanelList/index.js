@@ -1,37 +1,18 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useParams, useLocation, Link, redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import styles from './styles.module.css';
 import ChanelButton from "../ChanelButton/index";
 import { ChannelContext } from "../ChannelContext";
 
-function ChanelList({ user, isDirect = false, server, socket, updateServer })
+function ChanelList({ isDirect = false, socket})
 {
-    const [channel, setChannel, direct, setDirect, currentChannel, setCurrentChannel, currentDirect, setCurrentDirect, updateChannel] = useContext(ChannelContext);
-    const locate = useLocation().pathname.split('/')[1];
-    const [lsitChannel, setListChannel] = useState([]);
-
-    function handleClick(currentChannel, isDirect)
-    {
-        if(isDirect)
-        {
-            setCurrentDirect(currentChannel);
-        }
-        else
-        {
-            setCurrentChannel(currentChannel);
-        }
-    }
-
-    useEffect(() =>
-    {
-        setListChannel(channel);
-    }, [locate, channel]);
+    const [channels, setChannels, direct, setDirect, current, setCurrent] = useContext(ChannelContext);
 
     useEffect(() =>
     {
         socket?.on('new-channel', ({newChannel}) =>
         {
-            setListChannel(arr => [...arr, newChannel]);
+            setChannels(arr => [...arr, newChannel]);
         });
 
         return () =>
@@ -39,6 +20,11 @@ function ChanelList({ user, isDirect = false, server, socket, updateServer })
             socket?.off('new-channel');
         }
     }, []);
+
+    function handleChangeCurrent(channel)
+    {
+        setCurrent(channel);
+    }
 
     return(
         <div className={styles.container}>
@@ -51,14 +37,14 @@ function ChanelList({ user, isDirect = false, server, socket, updateServer })
                 direct?.map((channel, index) =>
                 (
                     <Link key={index} to={channel.direct}>
-                        <ChanelButton channel={channel} isDirect={true} handleClick={handleClick}/>
+                        <ChanelButton channel={channel} isDirect={true} handleChangeCurrent={handleChangeCurrent}/>
                     </Link>
                 ))
                 :
-                lsitChannel?.map((channel, index) =>
+                channels?.map((channel, index) =>
                 (
                     <Link key={index} to={channel._id}>
-                        <ChanelButton channel={channel} handleClick={handleClick}/>
+                        <ChanelButton channel={channel} handleChangeCurrent={handleChangeCurrent}/>
                     </Link>
                 ))
             }

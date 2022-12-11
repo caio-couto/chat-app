@@ -7,24 +7,17 @@ import { ChannelContext } from "../ChannelContext";
 
 function ChanelInfo({ isDirect = false })
 {
-    const [channel, setChannel, direct, setDirect, currentChannel, setCurrentChannel, currentDirect, setCurrentDirect] = useContext(ChannelContext);
+    const [channels, setChannels, direct, setDirect, current, setCurrent] = useContext(ChannelContext);
     const [channelName, setChannelName] = useState('');
     const locate = useLocation().pathname.split('/')[2];
+
+
     
     return(
         <div className={styles.container}>
             <span className={styles.hastagIcon}>{isDirect? <FiAtSign/> : <TbHash/>}</span>
             <h1 className={styles.title}>
-            {
-                isDirect?
-                <>
-                    {currentDirect?.friend.name}
-                </>
-                :
-                <>
-                    {currentChannel?.name}
-                </>
-            }
+                bosta
             </h1>
             {
                 isDirect?

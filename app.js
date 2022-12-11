@@ -60,6 +60,10 @@ app.use('/', MessageRoutes);
 io.of(/^\/\w+$/).on('connection', (socket) =>
 {
     console.log(socket.id);
+    socket.on('disconnect', () =>
+    {
+        console.log(`${socket.id} disconectado`);
+    });
     socket.on('join-room', async({locate}) =>
     {
         socket.join(locate);

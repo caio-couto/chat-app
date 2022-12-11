@@ -51,7 +51,6 @@ function ServerName({ isDirect = false, server, socket })
                 if(channel)
                 {
                     socket?.emit('new-channel', {newChannel: currenrChannel})
-                    setChannel(arr => [...arr, currenrChannel]);
                 }
             })
             .catch((error) => console.log(error));

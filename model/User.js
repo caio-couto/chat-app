@@ -13,6 +13,16 @@ const userSchema = new mongoose.Schema(
         type: String,
         max: 50
     },
+    avatar:
+    {
+        data: Buffer,
+        contenType: String
+    },
+    identifier:
+    {
+        type: String,
+        required: true,
+    },
     status:
     {
         type: Boolean

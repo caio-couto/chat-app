@@ -32,14 +32,14 @@ function SecondaryRoutes({ isDirect = false })
                 {
                     isDirect? 
                     <>
-                        <ServerName isDirect={true} socket={socket}/>
+                        <ServerName isDirect={true} socket={socket} user={user}/>
                         <ChanelList socket={socket} isDirect={true}/>
                         <ChanelInfo isDirect={true}/>
                     </>
                     :
                     <>
-                        <UserList server={server}/>
-                        <ServerName server={server} socket={socket}/>
+                        <UserList server={server} setServer={setServer} socket={socket}/>
+                        <ServerName server={server} setServer={setServer} socket={socket} user={user}/>
                         <ChanelList socket={socket} server={server}/>
                         <ChanelInfo/>
                     </>

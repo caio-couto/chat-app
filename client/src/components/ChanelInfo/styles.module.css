@@ -34,3 +34,40 @@
     font-size: 15px;
     color: var(--gray);
 }
+.friends
+{
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+}
+.friends .friends_icon
+{
+    font-size: 22px;
+    color: var(--senary);
+    margin-right: 8px;
+}
+.friends p
+{
+    font-size: 14px;
+    color: var(--white);
+    font-weight: bold;
+}
+.container .friends_button
+{
+    font-weight: bold;
+    cursor: pointer;
+    color: var(--senary);
+    font-size: 14px;
+    padding: 4px 6px;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+    margin-right: 10px;
+}
+.container .friends_button:hover
+{
+    background-color: var(--chat-input);
+    color: var(--white);
+}

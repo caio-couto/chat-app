@@ -7,6 +7,7 @@ import ServerList from "../ServerList";
 import SecondaryRoutes from '../SecondaryRoutes';
 import TertiaryRoutes from '../TertiaryRoutes';
 import styles from './styles.module.css';
+import Friends from '../Friends';
 
 function Layout() 
 {
@@ -21,6 +22,7 @@ function Layout()
                 <Routes>
                   <Route path='/' element={<Navigate to='/direct'/>}/>
                   <Route path='/direct' element={<SecondaryRoutes isDirect={true}/>}>
+                    <Route path='/direct/friends' element={<Friends/>}/>
                     <Route path='/direct/:id' element={<TertiaryRoutes/>}/>
                   </Route>
                   <Route path='/:id' element={<SecondaryRoutes isDirect={false}/>}>

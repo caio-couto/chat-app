@@ -20,6 +20,7 @@ const port = 5000;
 const cors = require('cors');
 const { use } = require('./routes/UserRoutes');
 const Channel = require('./model/Channel');
+const User = require('./model/User');
 const ServerClient = require('./model/Server');
 
 
@@ -60,17 +61,30 @@ app.use('/', MessageRoutes);
 io.of(/^\/\w+$/).on('connection', (socket) =>
 {
     console.log(socket.id);
-    socket.on('disconnect', () =>
+    socket.on('user', ({user}) =>
+    {
+        console.log(user);
+    });
+    socket.on('disconnect', async () =>
     {
         console.log(`${socket.id} disconectado`);
     });
-    socket.on('join-room', async({locate}) =>
+    socket.on('join-room', async ({locate}) =>
     {
         socket.join(locate);
         const history = await Message.find().where({channel: locate}).populate('sender');
         io.of(socket.nsp.name.split('/')[1]).to(locate).emit('history', history);
         io.of(socket.nsp.name.split('/')[1]).to(locate).emit('room-connection', `usuário ${socket.id}, conectado a room ${locate} rooms totais ${JSON.stringify(socket.rooms)}`);
         console.log(socket.rooms);
+    });
+    socket.on('add-server-user', (directs, serverId, serverName, sender) =>
+    {
+        directs.forEach( async (direct) =>
+        {
+            const saveMessage = await (await Message.create({content: 'Convite', sender, channel: direct, isInvite: true, inviteInfo: {serverId, serverName}})).populate('sender');
+            const senderName = {name:saveMessage.sender.name};
+            io.of('direct').to(direct).emit('server-message', {content: 'Convite', inviteInfo: {serverId, serverName}, sender:senderName, channel: direct, isInvite: true});
+        });
     });
     socket.on('client-message', async ({content, sender, channel}) =>
     {
@@ -83,6 +97,10 @@ io.of(/^\/\w+$/).on('connection', (socket) =>
         const deleteMessage = await Message.findByIdAndDelete(messageId);
         const history = await Message.find().where({channel: locate}).populate('sender');
         io.of(socket.nsp.name.split('/')[1]).to(locate).emit('history', history);
+    });
+    socket.on('user-acepted', (serverId, user) =>
+    {
+        io.of(serverId).emit('new-user', user);
     });
     socket.on('new-channel', async ({newChannel}) =>
     {

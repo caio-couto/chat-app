@@ -38,9 +38,19 @@ module.exports.newUser = (req, res) =>
     const { user } = req.body;
 
     Server.findByIdAndUpdate(id, { $push: { users: user } })
-    .then((data) =>
+    .then(() =>
     {
-        res.json(data);
+        User.findByIdAndUpdate({_id: user}, { $push: { servers: id } })
+        .then((user) =>
+        {
+            Server.findById(id)
+            .then((server) =>
+            {
+                res.json(server);
+            })
+            .catch((error) => console.log(error));
+        })
+        .catch((error) => res.json({msg: 'Usuário não editado', error}));
     })
     .catch((error) => res.json(error));
 }

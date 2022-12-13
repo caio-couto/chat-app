@@ -5,10 +5,10 @@ import { UserContext } from '../UserContext';
 
 function TertiaryRoutes()
 {   
-    const [user] = useContext(UserContext);
+    const [user, setUser] = useContext(UserContext);
     return(
         <div className={styles.channelData_wrapper}>
-            <ChanelData user={user}/>
+            <ChanelData user={user} setUser={setUser}/>
         </div>
     );
 }

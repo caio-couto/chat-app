@@ -33,6 +33,12 @@ function ChanelList({ isDirect = false, socket})
                 <div className={styles.add_category}></div>
             </div>
             {
+                isDirect &&
+                <Link to={'/direct/friends'}>
+                    <ChanelButton isFriend={true} isDirect={true} handleChangeCurrent={handleChangeCurrent}/>
+                </Link>
+            }
+            {
                 isDirect?                 
                 direct?.map((channel, index) =>
                 (

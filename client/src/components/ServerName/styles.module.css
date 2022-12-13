@@ -113,7 +113,7 @@
     cursor: pointer;
     width: 200px;
     height: 40px;
-    margin: auto;
+    margin: 20px auto 5px auto;
     color: white;
     font-weight: bold;
     font-size: 16px;
@@ -127,4 +127,100 @@
 .modal_container .content form button:hover
 {
     background-color: #5e73b9;
+}
+.modal_container .content .user_list
+{
+    background-color: var(--secondary);
+    padding: 10px;
+    border-radius: 8px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    -ms-border-radius: 8px;
+    -o-border-radius: 8px;
+}
+.modal_container .content form .user_list_item
+{
+    padding: 0px 10px;
+    border-radius: 8px;
+    padding: 3px 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -ms-border-radius: 3px;
+    -o-border-radius: 3px;
+}
+.modal_container .content form .user_list_item input
+{
+    margin: 0px;
+}
+.modal_container .content form .user_list_item:hover
+{
+    background-color: var(--quinary);
+}
+.modal_container .content form .user_list_item > div
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.modal_container .content form .user_list_item > div strong
+{
+    margin-left: 10px;
+    color: var(--white);
+}
+.modal_container .content form .user_list_item .avatar
+{
+    flex-shrink: 0;
+    width: 35px;
+    height: 35px;
+    background-color: var(--primary);
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+}
+.modal_container .content form .user_list_item label
+{
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+}
+.modal_container .content form .user_list_item label span
+{
+    color: var(--white);
+    position: absolute;
+}
+.modal_container .content form input[type='checkbox']
+{
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -moz-appearance: none;
+    background-color: transparent;
+    border: 1px solid var(--server-green);
+    width: 60px;
+    height: 30px;
+    color: white;
+}
+.modal_container .content form input[type='checkbox']:checked
+{
+    background-color: var(--server-green);
+}
+.modal_container .content form input[type='checkbox']:hover,
+.modal_container .content form .user_list_item label:hover
+{
+    background-color: var(--server-green);
 }

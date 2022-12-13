@@ -21,8 +21,9 @@
 {
     display: flex;
     align-items: center;
+    color: var(--senary)
 }
-.container > div > span
+.container > div > p
 {
     color: var(--senary);
     margin-left: 5px;
@@ -56,6 +57,14 @@
     font-size: 20px;
     font-weight: bold;
     color: var(--symbol);
+    margin: 0px 10px;
+}
+.friend_icon
+{
+    font-size: 24px;
+    font-weight: bold;
+    color: var(--symbol);
+    margin: 0px 10px 0px 14px;
 }
 .invite_icon
 {

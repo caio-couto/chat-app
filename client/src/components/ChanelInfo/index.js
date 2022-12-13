@@ -4,6 +4,7 @@ import { useLocation } from "react-router-dom";
 import { TbHash } from 'react-icons/tb';
 import { FiAtSign } from 'react-icons/fi';
 import { ChannelContext } from "../ChannelContext";
+import { BsFillPeopleFill } from 'react-icons/bs';
 
 function ChanelInfo({ isDirect = false })
 {
@@ -15,18 +16,34 @@ function ChanelInfo({ isDirect = false })
     
     return(
         <div className={styles.container}>
-            <span className={styles.hastagIcon}>{isDirect? <FiAtSign/> : <TbHash/>}</span>
-            <h1 className={styles.title}>
-                bosta
-            </h1>
             {
-                isDirect?
+                locate == 'friends'?
                 <>
+                    <div className={styles.friends}>
+                        <span className={styles.friends_icon}><BsFillPeopleFill/></span>
+                        <p>Amigos</p>
+                    </div>
+                    <div className={styles.separator}/>
+                    <div className={styles.friends_button}>
+                        <span>Disponível</span>
+                    </div>
+                    <div className={styles.friends_button}>
+                        <span>Todos</span>
+                    </div>
                 </>
                 :
                 <>
-                    <div className={styles.separator}/>
-                    <p className={styles.description}>Descrição do chat</p>
+                    <span className={styles.hastagIcon}>{isDirect? <FiAtSign/> : <TbHash/>}</span>
+                    <h1 className={styles.title}>
+                    bosta
+                    </h1>
+                    {
+                        !isDirect&&
+                        <>
+                            <div className={styles.separator}/>
+                            <p className={styles.description}>Descrição do chat</p>
+                        </>
+                    }
                 </>
             }
 

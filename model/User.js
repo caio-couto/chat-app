@@ -18,11 +18,6 @@ const userSchema = new mongoose.Schema(
         data: Buffer,
         contenType: String
     },
-    identifier:
-    {
-        type: String,
-        required: true,
-    },
     status:
     {
         type: Boolean

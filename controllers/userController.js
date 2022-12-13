@@ -69,7 +69,7 @@ module.exports.newFriend = (req, res) =>
             User.findByIdAndUpdate({_id: friend}, { $push: {friends:{direct: channel._id, friend: id}}})
             .then((user2) =>
             {
-                res.json({user1, user2});
+                res.json({direct: channel._id, friend: user2});
             })
             .catch((error) => res.json({error, user:'user2'}));
         })

@@ -4,7 +4,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px;
+    padding: 5px 10px;
     background-color: var(--quaternary);
     box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 0px 0px;
 }
@@ -12,6 +12,17 @@
 {
     display: flex;
     align-items: center;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+}
+.profile:hover
+{
+    background-color: var(--primary);
 }
 .avatar
 {
@@ -61,4 +72,113 @@
 .settings_icon:hover
 {
     opacity: 1;
+}
+.dropDown_Container
+{
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to top, rgba(255, 0, 0, 0.3), #151515 , #151515);
+    background-color: #151515;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+    padding: 15px;
+}
+.dropDown_Container .card
+{
+    width: 100%;
+    height: 100%;
+    background-color: #151515;
+    border-radius: 8px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    -ms-border-radius: 8px;
+    -o-border-radius: 8px;
+    padding: 10px;
+}
+.dropDown_Container .card .section
+{
+    padding: 10px 0px;
+    display: flex;
+    flex-direction: column;
+    border-bottom: 2px solid var(--secondary);
+}
+.dropDown_Container .card .section:last-child
+{
+    border-bottom: none;
+}
+.dropDown_Container .card .section .avatar
+{
+    width: 70px;
+    height: 70px;
+    margin-bottom: 30px;
+}
+.dropDown_Container .card .section .user_data
+{
+    margin-left: 0px;
+    flex-direction: row;
+}
+.dropDown_Container .card .section .user_data > strong
+{
+    font-size: 20px;
+    color: var(--white);
+    display: block;
+}
+.dropDown_Container .card .section .user_data > span
+{
+    font-size: 20px;
+    color: var(--gray);
+    font-weight: bold;
+}
+.dropDown_Container .card .section .title
+{
+    font-size: 11px;
+    font-weight: bold;
+    color: #ffff;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+.dropDown_Container .card .section .content
+{
+    color: rgb(193, 193, 193);
+    font-size: 16px;
+    font-weight: 300;
+    margin-bottom: 10px;
+}
+.dropDown_Container .card .section .status
+{
+    display: flex;
+    padding: 5px;
+    flex-direction: row;
+    align-items: center;
+}
+.dropDown_Container .card .section .status .avaliable
+{
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: var(--server-green);
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+}
+.dropDown_Container .card .section .status .unavaliable
+{
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: var(--primary);
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+}
+.dropDown_Container .card .section .status span
+{
+    margin-left: 5px;
+    color: rgb(193, 193, 193);
+    font-size: 14px;
 }

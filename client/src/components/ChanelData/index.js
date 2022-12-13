@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom';
 import styles from './styles.module.css';
 import { SocketContext } from '../SocketContext';
 
-function ChanelData({ user })
+function ChanelData({ user, setUser })
 {
   const locate = useLocation().pathname.split('/')[2];
   const [message, setMessage] = useState('');
@@ -39,13 +39,18 @@ function ChanelData({ user })
       setMessages(arr => [...arr, data]);
     });
 
+    socket?.on('add-server-user', (serverId, serverName) =>
+    {
+      console.log(serverId, serverName);
+    });
+
     return () =>
     {
       socket?.off('server-message');
       socket?.off('delete-message');
       socket?.off('history');
+      socket?.off('add-server-user');
     }
-
   }, []);
 
   function handleChange(event)
@@ -75,13 +80,31 @@ function ChanelData({ user })
     setMessages(deleteMessage);
   }
 
+  function handleAceptInvite(event, serverId)
+  {
+    event.preventDefault();
+    fetch(`http://localhost:5000/server/user/new/${serverId}`,
+    {
+        method: 'PUT',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({user: user._id})
+    })
+    .then((res) => res.json())
+    .then((data) =>
+    {
+      setUser(prevUser => ({...prevUser, servers: [...prevUser.servers, data]}));
+      socket?.emit('user-acepted', serverId, user);
+    })
+    .catch((error) => console.log(error));
+  }
+
   return (
     <div className={styles.container}>
       <div className={styles.messages}>
         {
           messages.map((message, index) =>
           (
-            <ChannelMessage key={index} previousMessage={messages[index - 1]} message={message} handleClick={handleClick} />
+            <ChannelMessage key={index} previousMessage={messages[index - 1]} handleAceptInvite={handleAceptInvite} message={message} handleClick={handleClick} />
           ))
         }
       </div>

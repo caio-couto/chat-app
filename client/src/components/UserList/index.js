@@ -4,7 +4,7 @@ import styles from './styles.module.css';
 import { ServerContext } from "../ServerContext";
 import { useLocation } from "react-router-dom";
 
-function UserList({ server })
+function UserList({ server, setServer, socket })
 {
     const [onlineUsers, setOnlineUsers] = useState([]);
     const [offlineUsers, setOfflineUsers] = useState([]);
@@ -17,6 +17,19 @@ function UserList({ server })
             setOfflineUsers(server.users.filter((user) => user.status == false));
         }
     }, [server]);
+
+    useEffect(() =>
+    {
+        socket?.on('new-user', (user) =>
+        {
+            setServer(prevState => ({ ...prevState, users: [...prevState.users, user] }));
+        });
+
+        return () =>
+        {
+            socket?.off('new-user');
+        }
+    }, []);
 
     return(
         <div className={styles.container}>

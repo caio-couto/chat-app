@@ -2,21 +2,39 @@ const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema(
 {
-    name:
+    username:
     {
         type: String,
         required: true,
+        trim: true
+    },
+    discriminator:
+    {
+        type: String,
+        required: true
+    },
+    email: 
+    {
+        type: String,
+        required: true,
+        trim: true,
         unique: true
+    },
+    password:
+    {
+        type: String,
+        required: true
     },
     about: 
     {
         type: String,
-        max: 50
+        max: 50,
+        trim: true
     },
-    avatar:
+    profilePic:
     {
-        data: Buffer,
-        contenType: String
+        type: String,
+        default: '/images/profilePic.jpeg'
     },
     status:
     {
@@ -32,18 +50,9 @@ const userSchema = new mongoose.Schema(
     friends: 
     [
         {
-            direct:
-            {
-                type: mongoose.Types.ObjectId,
-                ref: 'Channel',
-                required: true
-            },
-            friend:
-            {
-                type: mongoose.Types.ObjectId,
-                ref: 'User',
-                required: true
-            }
+            type: mongoose.Types.ObjectId,
+            ref: 'User',
+            required: true
         }
     ]
 },

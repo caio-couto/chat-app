@@ -2,13 +2,13 @@ import React, { useState } from "react";
 import styles from './styles.module.css';
 import { IoIosAdd } from 'react-icons/io';
 
-function ServerButton({ selected, isHome, hasNotifications, mentions, isServerAdd, handleClick })
+function ServerButton({ selected, isHome, hasNotifications, mentions, isServerAdd, toggleModal })
 {
     function onHandleClick()
     {
-        if(handleClick)
+        if(toggleModal)
         {
-            handleClick();
+            toggleModal();
         }
     }
     return(

@@ -27,7 +27,7 @@
 }
 .modal_container
 {
-    width: 450px;
+    max-width: 450px;
 }
 .modal_container .title
 {

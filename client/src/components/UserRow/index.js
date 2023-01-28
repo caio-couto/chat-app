@@ -1,12 +1,12 @@
 import React from "react";
 import styles from './styles.module.css';
 
-function UserRow({ name })
+function UserRow({ userName })
 {
     return(
         <div className={styles.container}>
             <div className={styles.avatar}></div>
-            <strong>{ name }</strong>
+            <strong>{ userName }</strong>
         </div>
     );
 }

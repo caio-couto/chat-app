@@ -2,58 +2,26 @@ import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styles from './styles.module.css';
 import ChanelButton from "../ChanelButton/index";
-import { ChannelContext } from "../ChannelContext";
+import ServerContext from "../../context/ServerContext";
 
-function ChanelList({ isDirect = false, socket})
+function ChanelList({ serverId })
 {
-    const [channels, setChannels, direct, setDirect, current, setCurrent] = useContext(ChannelContext);
-
-    useEffect(() =>
-    {
-        socket?.on('new-channel', ({newChannel}) =>
-        {
-            setChannels(arr => [...arr, newChannel]);
-        });
-
-        return () =>
-        {
-            socket?.off('new-channel');
-        }
-    }, []);
-
-    function handleChangeCurrent(channel)
-    {
-        setCurrent(channel);
-    }
+    const { channels } = useContext(ServerContext);
 
     return(
         <div className={styles.container}>
             <div className={styles.category}>
-                <span>{isDirect ? 'Mensagens diretas' : 'Canais de texto'}</span>
+                <span>Canais de texto</span>
                 <div className={styles.add_category}></div>
-            </div>
+            </div>  
             {
-                isDirect &&
-                <Link to={'/direct/friends'}>
-                    <ChanelButton isFriend={true} isDirect={true} handleChangeCurrent={handleChangeCurrent}/>
-                </Link>
-            }
-            {
-                isDirect?                 
-                direct?.map((channel, index) =>
+                channels?.map((channel) =>
                 (
-                    <Link key={index} to={channel.direct}>
-                        <ChanelButton channel={channel} isDirect={true} handleChangeCurrent={handleChangeCurrent}/>
+                    <Link className={styles.link} key={channel._id}  to={`/channels/${serverId}/${channel._id}`}>
+                        <ChanelButton channelName={channel.chatName}/>
                     </Link>
                 ))
-                :
-                channels?.map((channel, index) =>
-                (
-                    <Link key={index} to={channel._id}>
-                        <ChanelButton channel={channel} handleChangeCurrent={handleChangeCurrent}/>
-                    </Link>
-                ))
-            }
+            }           
         </div>
     );
 }

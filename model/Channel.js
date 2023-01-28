@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const channelSchema = new mongoose.Schema(
 {
-    name:
+    chatName:
     {
         type: String,
         required: true,
@@ -17,7 +17,6 @@ const channelSchema = new mongoose.Schema(
     description:
     {
         type: String,
-        min: 3,
         max: 20,
     },
     belongsTo:

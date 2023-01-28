@@ -6,17 +6,16 @@ import DropDown from "../Modals/DropDown";
 function UserInfo({ user })
 {
     const [date, setDate] = useState('');
-
     const [dropDown, setDropDown] = useState(false);
     
-    function handleClick()
+    function toggleProfile()
     {
         dropDown ? setDropDown(false) : setDropDown(true);
     }
 
     useEffect(() =>
     {
-        if(user.createdAt != undefined)
+        if(user?.createdAt != undefined)
         {
             const date = new Date(user.createdAt);
             const formatDate = new Intl.DateTimeFormat('pt-BR').format(date);
@@ -67,48 +66,40 @@ function UserInfo({ user })
         }
 
     }, [user]);
-
-    function dateFormat()
-    {
-        
-    }        
+   
 
     return(
         <div className={styles.container}>
-            <div className={styles.profile} onClick={() => {handleClick()}}>
+            <div className={styles.profile} onClick={() => { toggleProfile() }}>
                 <div className={styles.avatar}></div>
                 <div className={styles.user_data}>
-                    <strong>{user.name}</strong>
-                    <span>#2278</span>
+                    <strong>{user?.username}</strong>
+                    <span>#{user?.discriminator}</span>
                 </div>
             </div>
             <div className={styles.icons}>
                 <div className={styles.settings_icon}><GoGear/></div>
             </div>
-            <DropDown isOpen={dropDown} setIsOpen={setDropDown} component='user_info' handleClick={handleClick}>
+            <DropDown isOpen={dropDown} setIsOpen={setDropDown} component='user_info'>
                 <div className={styles.dropDown_Container}>
                     <div className={styles.card}>
                         <div className={styles.section}>
                             <div className={styles.avatar}></div>
                             <div className={styles.user_data}>
-                                <strong>{user.name}</strong>
-                                <span>#2278</span>
+                                <strong>kazumyo</strong>
+                                <span>#{user?.discriminator}</span>
                             </div>
                         </div>
                         <div className={styles.section}>
                             <div className={styles.title}>SOBRE MIM</div>
-                            <div className={styles.content}>{user.about}</div>
+                            <div className={styles.content}>{user?.about}</div>
                             <div className={styles.title}>MEMBRO DISCORD DESDE</div>
                             <div className={styles.content}>{date}</div>
                         </div>
                         <div className={styles.section}>
-                            <div className={styles.status}>
-                                {user?.status ? 
+                            <div className={styles.status}> 
                                 <div className={styles.avaliable}></div>
-                                : 
-                                <div className={styles.unavaliable}></div>
-                                }
-                                <span>{user?.status ? 'Disponível' : 'Indisponível'}</span>
+                                <span>Disponível</span>
                             </div>
                         </div>
                     </div>

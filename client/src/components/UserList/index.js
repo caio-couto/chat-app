@@ -1,61 +1,37 @@
 import React, { useEffect, useState, useContext } from "react";
 import UserRow from "../UserRow";
 import styles from './styles.module.css';
-import { ServerContext } from "../ServerContext";
-import { useLocation } from "react-router-dom";
 
-function UserList({ server, setServer, socket })
+function UserList({ users })
 {
-    const [onlineUsers, setOnlineUsers] = useState([]);
-    const [offlineUsers, setOfflineUsers] = useState([]);
+    const [onlineUsers, setOnlineUsers] = useState(null);
+    const [offlineUsers, setOfflineUsers] = useState(null);
 
     useEffect(() =>
     {
-        if(server)
-        {
-            setOnlineUsers(server.users.filter((user) => user.status == true ));
-            setOfflineUsers(server.users.filter((user) => user.status == false));
-        }
-    }, [server]);
-
-    useEffect(() =>
-    {
-        socket?.on('new-user', (user) =>
-        {
-            setServer(prevState => ({ ...prevState, users: [...prevState.users, user] }));
-        });
-
-        return () =>
-        {
-            socket?.off('new-user');
-        }
-    }, []);
+        setOnlineUsers(users?.filter((user) => user.status === true));
+        setOfflineUsers(users?.filter((user) => user.status === false));
+    }, [users]);
 
     return(
         <div className={styles.container}>
             <div className={styles.role}>
-                Disponível - {onlineUsers?.length}
+                Disponível
             </div>
             {
-                onlineUsers.map((user, index) =>
-                {
-                    if(user.status)
-                    {
-                        return <UserRow key={index} name={user.name}/>
-                    }
-                })
+                onlineUsers?.map((user) =>
+                (
+                    <UserRow key={user._id} userName={user.username}/>
+                ))
             }
             <div className={styles.role}>
-                Indisponível - {offlineUsers?.length}
+                Indisponível
             </div>
             {
-                offlineUsers.map((user, index) =>
-                {
-                    if(!user.status)
-                    {
-                        return <UserRow key={index} name={user.name}/>
-                    }
-                })
+                offlineUsers?.map((user) =>
+                (
+                    <UserRow key={user._id} userName={user.username}/>
+                ))
             }
         </div>
     );

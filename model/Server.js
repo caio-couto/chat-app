@@ -6,18 +6,16 @@ const serverSchema = new mongoose.Schema(
     {
         type: String,
     },
+    serverImage:
+    {
+        type: String,
+        default: '/images/serverImage.jpeg'
+    },
     users:
     [
         {
             type: mongoose.Types.ObjectId,
             ref: 'User',
-        }
-    ],
-    channels:
-    [
-        {
-            type: mongoose.Types.ObjectId,
-            ref: 'Channel',
         }
     ]
 });

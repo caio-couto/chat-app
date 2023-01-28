@@ -1,115 +1,40 @@
 import React, { useRef, useEffect, useState, useContext } from 'react';
+import ChatContext from '../../context/ChatContext';
 import ChannelMessage from '../ChannelMessage';
-import { useLocation } from 'react-router-dom';
 import styles from './styles.module.css';
-import { SocketContext } from '../SocketContext';
 
-function ChanelData({ user, setUser })
+function ChanelData()
 {
-  const locate = useLocation().pathname.split('/')[2];
-  const [message, setMessage] = useState('');
-  const [messages, setMessages] = useState([]);
-  const [socket, setSocket] = useContext(SocketContext);
-  
-  useEffect(() =>
+  const { messages, createMessage } = useContext(ChatContext);
+  const [content, setContent] = useState('');
+
+  function sendNewMessage(event)
   {
-    socket?.emit('join-room', {locate});
-    socket?.on('room-connection', (message) =>
+    if(event.key == 'Enter')
     {
-      console.log(message);
-    });
- 
-    return () =>
-    {
-      socket?.off('room-connection');
-      socket?.off('join-room');
+      createMessage(event, content);
+      setContent('');
     }
-  }, [locate]);
-
-  useEffect(() =>
-  {
-
-    socket?.on('history', (history)=>
-    {
-      setMessages(history);
-    })
-
-    socket?.on('server-message', (data) =>
-    {
-      setMessages(arr => [...arr, data]);
-    });
-
-    socket?.on('add-server-user', (serverId, serverName) =>
-    {
-      console.log(serverId, serverName);
-    });
-
-    return () =>
-    {
-      socket?.off('server-message');
-      socket?.off('delete-message');
-      socket?.off('history');
-      socket?.off('add-server-user');
-    }
-  }, []);
-
-  function handleChange(event)
-  {
-    setMessage(event.target.value);
   }
 
-  function handleSubmit(event)
+  function inputValue(event)
   {
-    event.preventDefault();
-    const content = message;
-    const sender = user._id;
-    const channel = locate;
-    socket?.emit('client-message', {content, sender, channel});
-    setMessage('');
-  }
-
-  function handleClick(messageId)
-  {
-    socket?.emit('delete-message', {messageId, locate});
-    deleteMessage(messageId);
-  }
-
-  function deleteMessage(messageId)
-  {
-    const deleteMessage = messages.filter((message) => message._id != messageId);
-    setMessages(deleteMessage);
-  }
-
-  function handleAceptInvite(event, serverId)
-  {
-    event.preventDefault();
-    fetch(`http://localhost:5000/server/user/new/${serverId}`,
-    {
-        method: 'PUT',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({user: user._id})
-    })
-    .then((res) => res.json())
-    .then((data) =>
-    {
-      setUser(prevUser => ({...prevUser, servers: [...prevUser.servers, data]}));
-      socket?.emit('user-acepted', serverId, user);
-    })
-    .catch((error) => console.log(error));
+    setContent(event.target.value);
   }
 
   return (
     <div className={styles.container}>
       <div className={styles.messages}>
         {
-          messages.map((message, index) =>
+          messages?.map((message) =>
           (
-            <ChannelMessage key={index} previousMessage={messages[index - 1]} handleAceptInvite={handleAceptInvite} message={message} handleClick={handleClick} />
+            <ChannelMessage key={message._id} message={message}/>
           ))
         }
+
       </div>
-      <form onSubmit={(event) => { handleSubmit(event) }} className={styles.input_wrapper}>
-        <input value={message} onChange={(event) => { handleChange(event) }} className={styles.input} type="text" placeholder="Conversarem #chat-livre" />
+      <form className={styles.input_wrapper}>
+        <input onKeyDown={(event) => {sendNewMessage(event)}} onChange={(event) => { inputValue(event) }} value={content} className={styles.input} type="text" name='content' placeholder="Conversarem #chat-livre" />
       </form>
     </div>
   );

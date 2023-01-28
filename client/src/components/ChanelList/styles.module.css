@@ -29,3 +29,7 @@
     color: var(--symbol);
     cursor: pointer;
 }
+.container a
+{
+    text-decoration: none;
+}

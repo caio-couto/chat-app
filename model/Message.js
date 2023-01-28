@@ -7,16 +7,6 @@ const messageSchema = new mongoose.Schema(
         type: String,
         required: true
     },
-    isInvite:
-    {
-        type: Boolean,
-        default: false
-    },
-    inviteInfo:
-    {
-        type: Object,
-        default: {}
-    },
     sender:
     {
         type: mongoose.Types.ObjectId,

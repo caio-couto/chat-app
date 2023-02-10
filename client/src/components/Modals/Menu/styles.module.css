@@ -1,0 +1,73 @@
+.backdrop
+{
+    width: 100vw;
+    height: 100vh;
+    top: 0px;
+    left: 0px;
+    background-color: rgba(0, 0, 0, 0.55);
+    position: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
+}
+.backdrop .modal
+{
+    background-color: #e1e1e1;
+    color: #1e1e1e;
+    padding: 2rem;
+    border-radius: 0.75rem;
+    -webkit-border-radius: 0.75rem;
+    -moz-border-radius: 0.75rem;
+    -ms-border-radius: 0.75rem;
+    -o-border-radius: 0.75rem;
+    max-width: 75vw;
+    max-height: 90vh;
+    position: absolute;
+}
+.backdrop .modal .modal_close
+{
+    --size: 1.25rem;
+    width: var(--size);
+    height: var(--size);
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+    color: black;
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    display: flex;
+}
+.backdrop .modal .modal_close::before,
+.backdrop .modal .modal_close::after
+{
+    content: '';
+    position: absolute;
+    width: var(--size);
+    height: calc(var(--size) * 0.1);
+    background-color: currentColor;
+    border-radius: 0.125rem;
+    -webkit-border-radius: 0.125rem;
+    -moz-border-radius: 0.125rem;
+    -ms-border-radius: 0.125rem;
+    -o-border-radius: 0.125rem;
+    left: 0px;
+    top: calc(var(--size) / 2);
+}
+.backdrop .modal .modal_close::before
+{
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+}
+.backdrop .modal .modal_close::after
+{
+    transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+    -moz-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+}

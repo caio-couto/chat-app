@@ -14,11 +14,14 @@ function DropDown({ children, isOpen, setIsOpen, component })
     }
 
     return(
-        <div className={styles.backdrop} onClick={() => {handleClick()}}>
-            <div className={`${styles.dropdown} ${styles[component]}`}>
-                {children}
+        <>
+            <div className={styles.backdrop} onClick={() => {handleClick()}}>
+                <div className={`${styles.dropdown} ${styles[component]}`}>
+                    {children}
+                </div>
             </div>
-        </div>
+        </>
+
     );
 }
 

@@ -10,7 +10,6 @@
     margin-bottom: 8px;
     background-color: var(--primary);
     cursor: pointer;
-    position: relative;
     border-radius: 50%;
     -webkit-border-radius: 50%;
     -moz-border-radius: 50%;
@@ -21,12 +20,36 @@
     -moz-transition: all 0.2s ease-out;
     -ms-transition: all 0.2s ease-out;
     -o-transition: all 0.2s ease-out;
+    overflow: hidden;
+}
+.button::before
+{
+    content: '';
+    width: 0px;
+    height: 0px;
+    background-color: white;
+    position: absolute;
+    left: 0px;
+    border-radius: 0px 8px 8px 0px;
+    -webkit-border-radius: 0px 8px 8px 0px;
+    -moz-border-radius: 0px 8px 8px 0px;
+    -ms-border-radius: 0px 8px 8px 0px;
+    -o-border-radius: 0px 8px 8px 0px;
+    transition: all 0.1s ease-out;
+    -webkit-transition: all 0.1s ease-out;
+    -moz-transition: all 0.1s ease-out;
+    -ms-transition: all 0.1s ease-out;
+    -o-transition: all 0.1s ease-out;
 }
 .button > img
 {
     width: 100%;
 }
-.button.active, .button:hover
+.button.selected
+{
+    background-color: white;
+}
+.button.selected, .button:hover
 {
     border-radius: 16px;
     -webkit-border-radius: 16px;
@@ -34,6 +57,18 @@
     -ms-border-radius: 16px;
     -o-border-radius: 16px;
     background-color: var(--discord);
+}
+.button:hover::before
+{
+    content: '';
+    width: 4px;
+    height: 20px;
+}
+.button.selected::before
+{
+    content: '';
+    width: 4px;
+    height: 40px;
 }
 .button div
 {

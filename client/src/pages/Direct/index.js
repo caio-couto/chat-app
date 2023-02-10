@@ -1,16 +1,17 @@
 import React, { useContext, useEffect } from "react";
-import ChannelData from "../../components/ChanelData";
+import { Outlet } from "react-router-dom";
+import DirectData from "../../components/DirectData";
 import { ChatProvider } from "../../context/ChatContext";
 
-function Chat()
+function Direct()
 {
     return(
         <> 
             <ChatProvider>
-                <ChannelData/>
+                <DirectData/>
             </ChatProvider>
         </>    
     );
 }
 
-export default Chat;
+export default Direct;

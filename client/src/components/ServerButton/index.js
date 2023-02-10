@@ -1,20 +1,27 @@
-import React, { useState } from "react";
-import styles from './styles.module.css';
+import React from 'react';
 import { IoIosAdd } from 'react-icons/io';
+import styles from './styles.module.css';
 
-function ServerButton({ selected, isHome, hasNotifications, mentions, isServerAdd, toggleModal })
+function ServerButton({ selected, setSelected, isAddServer, toggleModal, index })
 {
     function onHandleClick()
     {
-        if(toggleModal)
+        if(isAddServer)
         {
-            toggleModal();
+            if(toggleModal)
+            {
+                toggleModal();
+            }
+        }
+
+        if(setSelected)
+        {
+            setSelected(index);
         }
     }
     return(
-        <div onClick={() => {onHandleClick()}} className={styles.button}>
-            {isHome && <img src="https://logodownload.org/wp-content/uploads/2017/11/discord-logo-0.png" alt="logo"/>}
-            {isServerAdd && <div><IoIosAdd/></div> }
+        <div onClick={() => {onHandleClick()}} className={!isAddServer && selected == index? `${styles.button} ${styles.selected}` : styles.button}>
+            {isAddServer && <div><IoIosAdd/></div> }
         </div>
     );
 }

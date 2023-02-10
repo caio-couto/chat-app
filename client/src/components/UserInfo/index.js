@@ -71,7 +71,9 @@ function UserInfo({ user })
     return(
         <div className={styles.container}>
             <div className={styles.profile} onClick={() => { toggleProfile() }}>
-                <div className={styles.avatar}></div>
+                <div className={styles.avatar}>
+                    <img className={styles.avatar_image} src={`http://localhost:5000${user?.profilePic}`}/>
+                </div>
                 <div className={styles.user_data}>
                     <strong>{user?.username}</strong>
                     <span>#{user?.discriminator}</span>

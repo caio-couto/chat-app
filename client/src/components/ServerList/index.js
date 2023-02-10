@@ -4,11 +4,13 @@ import styles from './styles.module.css';
 import ServerButton from "../ServerButton/index";
 import CreateServer from "../Modals/CreateServer/index";
 import ServerContext from "../../context/ServerContext";
+import mdImage from '../../images/mdImage.png'
 
 function ServerList()
 {
     const [modal, setModal] = useState(false);
     const { servers, createServer } = useContext(ServerContext);
+    const [selected, setSelected] = useState(0);
 
     function toggleModal()
     {
@@ -23,19 +25,19 @@ function ServerList()
 
     return(
         <div className={styles.container}>
-            <Link to='/direct'>
-                <ServerButton/>
+            <Link to='@me'>
+                <ServerButton setSelected={setSelected} selected={selected} index={0} srcImage={mdImage} />
             </Link>
             <span className={styles.separator}/>
             {
-                servers?.map((server) =>
+                servers?.map((server, index) =>
                 (
-                    <Link key={server._id} to={`/channels/${server._id}`}>
-                        <ServerButton/>
+                    <Link key={index} to={`/channels/${server._id}`}>
+                        <ServerButton setSelected={setSelected} selected={selected} index={index + 1}/>
                     </Link>
                 ))
             }
-            <ServerButton isServerAdd={true} toggleModal={toggleModal}/>
+            <ServerButton isAddServer={true} toggleModal={toggleModal}/>
             <CreateServer isOpen={modal} setIsOpen={setModal}>
                 <div className={styles.modal_container}>
                     <div className={styles.title}>

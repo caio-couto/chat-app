@@ -31,7 +31,7 @@ export function ChatProvider({ children })
         {
             console.log(error);
         });
-    }, [location[3]]);
+    }, [location]);
 
     function createMessage(event, content)
     {
@@ -56,10 +56,64 @@ export function ChatProvider({ children })
         });
     }
 
+    function deleteMessage(messageId)
+    {
+        const headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        headers.append('authorization', `Bearer ${accessToken}`)
+        fetch(`${baseUrl}message/`,
+        {
+            method: 'DELETE',
+            headers: headers,
+            body: JSON.stringify({messageId: messageId})
+        })
+        .then(() =>
+        {
+            setMessages(messages.filter((message) => message._id !== messageId));
+        })
+        .catch((error) =>
+        {
+            console.log(error);
+        });
+    }
+
+    async function inviteServer(serverId)
+    {
+        async function getServer()
+        {
+            const headers = new Headers();
+            headers.append('Content-Type', 'application/json');
+            headers.append('authorization', `Bearer ${accessToken}`)
+            const res = await fetch(`${baseUrl}server/${serverId}`,
+            {
+                method: 'GET',
+                headers: headers,
+            })
+            .catch((error) =>
+            {
+                console.log(error);
+            });
+
+            return res.json();
+        }
+
+        try
+        {   
+            const server = await getServer()
+            return server
+        }
+        catch(error)
+        {
+            console.log(error);
+        }
+    }
+
     const contextData =
     {
         messages: messages,
-        createMessage: createMessage
+        createMessage: createMessage,
+        inviteServer: inviteServer,
+        deleteMessage: deleteMessage
     };
 
     return(

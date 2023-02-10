@@ -1,0 +1,47 @@
+.container
+{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    padding: 5px 3px;
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+    background-color: transparent;
+    transition: background-color 0.2s;
+    -webkit-transition: background-color 0.2s;
+    -moz-transition: background-color 0.2s;
+    -ms-transition: background-color 0.2s;
+    -o-transition: background-color 0.2s;
+}
+.container > div
+{
+    display: flex;
+    align-items: center;
+    color: var(--senary)
+}
+.container > div > p
+{
+    color: var(--senary);
+    margin-left: 5px;
+}
+.container.active, .container:hover
+{
+    background-color: var(--quinary);
+}
+.profile
+{
+    flex-shrink: 0;
+    width: 35px;
+    height: 35px;
+    background-color: var(--primary);
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+    margin-right: 10px;
+}

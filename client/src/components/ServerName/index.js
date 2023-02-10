@@ -4,16 +4,22 @@ import DropDown from "../Modals/DropDown/index";
 import { CgChevronDown, CgClose } from 'react-icons/cg';
 import { IoAddCircle } from 'react-icons/io5';
 import { HiUserAdd } from 'react-icons/hi'
+import { BsGearFill } from 'react-icons/bs';
 import CreateServer from "../Modals/CreateServer";
 import ServerContext from "../../context/ServerContext";
+import UserContext from "../../context/UserContext";
+import ChatContext from "../../context/ChatContext";
+import Menu from "../Modals/Menu";
 
 function ServerName({ serverName, serverId })
 {
     const [dropDown, setDropDown] = useState(false);
+    const [select, setSelect] = useState([]);
     const [createServerModal, setCreateServerModal] = useState(false);
     const [addUserModal, setAddUserModal] = useState(false);
-
-    const { createChannel } = useContext(ServerContext);
+    const { user } = useContext(UserContext);
+    const { inviteFriends, createChannel } = useContext(ServerContext);
+    const [menu, setMenu] = useState(false);
 
 
     function toggleModal(modal, setModal)
@@ -25,6 +31,26 @@ function ServerName({ serverName, serverId })
     {
         createChannel(event, false, serverId);
         setCreateServerModal(false);
+    }
+
+    function handleSelect(event)
+    {
+        if(event.target.checked)
+        {
+            setSelect([...select, event.target.value]);
+        }
+        else
+        {
+            setSelect(select.filter((option) => option != event.target.value));
+        }
+    }
+
+    function handleSubmit(event)
+    {
+        event.preventDefault();
+        inviteFriends(event, select);
+        setSelect([]);
+        setAddUserModal(false);
     }
     
     return(
@@ -44,12 +70,18 @@ function ServerName({ serverName, serverId })
                         <IoAddCircle/>
                     </div>
                 </div>
-                    <div className={styles.option} onClick={() => {toggleModal(addUserModal, setAddUserModal)}}>
-                        <p>Adicionar amigo</p>
-                        <div className={styles.icon}>
-                            <HiUserAdd/>
-                        </div>
+                <div className={styles.option} onClick={() => {toggleModal(addUserModal, setAddUserModal)}}>
+                    <p>Adicionar amigo</p>
+                    <div className={styles.icon}>
+                        <HiUserAdd/>
                     </div>
+                </div>
+                <div className={styles.option} onClick={() => {toggleModal(menu, setMenu)}}>
+                    <p>Config. do servidor</p>
+                    <div className={styles.icon}>
+                        <BsGearFill/>
+                    </div>
+                </div>
             </DropDown>
             <CreateServer isOpen={createServerModal} setIsOpen={setCreateServerModal}>
                 <div className={styles.modal_container}>
@@ -75,22 +107,49 @@ function ServerName({ serverName, serverId })
                         <p>Adicione amigos no servidor e expanda a suas conversas. Converser, faça chamadas e se divirta!</p>
                     </div>
                     <div className={styles.content}>
-                        <form className={styles.user_list}>
-                                    <div className={styles.user_list_item}>
-                                        <div>
-                                            <div className={styles.avatar}></div>
-                                            <strong></strong>
+                        <form className={styles.user_list} onSubmit={(event) => handleSubmit(event)}>
+                            {
+                                user?.friends.map((friend) =>
+                                {
+                                    const isSelected = select.find((element) => element == friend._id) != undefined ? true : false;
+
+                                    return(
+                                        <div className={styles.user_list_item} key={friend._id}>
+                                            <div>
+                                                <div className={styles.avatar}></div>
+                                                <strong>{friend.username}</strong>
+                                            </div>
+                                            <label>
+                                                <span>Convidar</span>
+                                                <input value={friend._id} checked={isSelected} onChange={(event) => handleSelect(event)} autoComplete="new-password" type='checkbox' name='user' placeholder="ID do usuário"/>
+                                            </label>
                                         </div>
-                                        <label>
-                                            <span>Convidar</span>
-                                            <input autoComplete="new-password" type='checkbox' name='user' placeholder="ID do usuário"/>
-                                        </label>
-                                    </div>
+                                    );
+                                })
+                            }
                             <button type="submit">Adicionar</button>
                         </form>
                     </div>
                 </div>
             </CreateServer>
+            <Menu isOpen={menu} setIsOpen={setMenu}>
+                <div className={styles.modal_container}>
+                    <div className={styles.title}>
+                        <h2>Crie seu servidor</h2>
+                        <p>Deixe seu novo servidor com sua cara dando um nome e um ícone a ele. Se quiser, é possivel mudar depois.</p>
+                    </div>
+                    <div className={styles.content}>
+                        <div className={styles.server_icon}>
+
+                        </div>
+                        <form >
+                            <label>NOME DO SERVIDOR</label>
+                            <input autoComplete="new-password" type='text' name='name' placeholder={serverName}/>
+                            <button type="submit">Editar</button>
+                        </form>
+                    </div>
+                </div>
+            </Menu>
         </div>
     );
 }

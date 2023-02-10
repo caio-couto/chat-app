@@ -1,29 +1,29 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 import AuthContext from "./AuthContext";
 
-const UserContext = createContext();
+const DirectContext = createContext();
 
 const baseUrl = 'http://localhost:5000/api/';
 
-export function UserProvider({ children })
+export function DirectProvider({ children })
 {
     const { accessToken } = useContext(AuthContext);
-    const [user, setUser] = useState(null); 
+    const [directs, setDirects] = useState(null);
 
     useEffect(() =>
     {
         const headers = new Headers();
         headers.append('Content-Type', 'application/json');
         headers.append('authorization', `Bearer ${accessToken}`)
-        fetch(`${baseUrl}user`,
+        fetch(`${baseUrl}direct`,
         {
             method: 'GET',
-            headers: headers
+            headers: headers,
         })
         .then((res => res.json()))
-        .then((userData) =>
+        .then((directs) =>
         {
-            setUser(userData);
+            setDirects(directs);
         })
         .catch((error) =>
         {
@@ -31,21 +31,21 @@ export function UserProvider({ children })
         });
     }, []);
 
-    function addFriend(event)
+    function createDirectGroup(users, isGroupDirect = false)
     {
         const headers = new Headers();
         headers.append('Content-Type', 'application/json');
         headers.append('authorization', `Bearer ${accessToken}`)
-        fetch(`${baseUrl}user/addFriend`,
+        fetch(`${baseUrl}direct`,
         {
-            method: 'PUT',
+            method: 'POST',
             headers: headers,
-            body: JSON.stringify({friendUsername: event.target[0].value})
+            body: JSON.stringify({users: users, isGroupDirect: isGroupDirect})
         })
         .then((res => res.json()))
-        .then((userData) =>
+        .then((newDirect) =>
         {
-            setUser({...user, friends: [...user.friends, userData]});
+            setDirects([...directs, newDirect]);
         })
         .catch((error) =>
         {
@@ -53,17 +53,17 @@ export function UserProvider({ children })
         });
     }
 
-    const contextData =
+    const contextData = 
     {
-        user: user,
-        addFriend: addFriend
+        directs: directs,
+        createDirectGroup: createDirectGroup,
     };
 
     return(
-        <UserContext.Provider value={contextData}>
+        <DirectContext.Provider value={contextData}>
             {children}
-        </UserContext.Provider>
+        </DirectContext.Provider>
     );
 }
 
-export default UserContext;
+export default DirectContext;

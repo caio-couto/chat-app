@@ -38,7 +38,8 @@ const userSchema = new mongoose.Schema(
     },
     status:
     {
-        type: Boolean
+        type: Boolean,
+        default: false
     },
     servers:
     [

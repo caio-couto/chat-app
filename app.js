@@ -10,6 +10,7 @@ const cors = require('cors');
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 app.use(cors({origin: 'http://localhost:3000'}));
+app.use(express.static(path.join(__dirname, 'public')));
 
 if(process.env.NODE_ENV != 'development')
 {
@@ -25,6 +26,7 @@ const UserRoutes = require('./api/user');
 const ServerRoutes = require('./api/server');
 const ChannelRoutes = require('./api/channel');
 const MessageRoutes = require('./api/message');
+const DirectRoutes = require('./api/direct');
 
 const verifyToken = require('./middleware/verifyToken');
 
@@ -33,6 +35,7 @@ app.use('/api/user/', verifyToken, UserRoutes);
 app.use('/api/server/', verifyToken, ServerRoutes);
 app.use('/api/channel/', verifyToken, ChannelRoutes);
 app.use('/api/message/', verifyToken, MessageRoutes);
+app.use('/api/direct/', verifyToken, DirectRoutes);
 
 app.get('/', (req, res) =>
 {

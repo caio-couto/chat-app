@@ -68,6 +68,28 @@ export function ServerProvider({ children })
         });
     }
 
+    function joinServer(serverId, userId)
+    {
+        const headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        headers.append('authorization', `Bearer ${accessToken}`)
+        fetch(`${baseUrl}server/${serverId}`,
+        {
+            method: 'PUT',
+            headers: headers,
+            body: JSON.stringify({userId: userId})
+        })
+        .then((res => res.json()))
+        .then(() =>
+        {
+            console.log('Adicionado');
+        })
+        .catch((error) =>
+        {
+            console.log(error);
+        });
+    }
+
     function createServer(event)
     {
         event.preventDefault();
@@ -84,6 +106,45 @@ export function ServerProvider({ children })
         .then((newServer) =>
         {
             setServers([...servers, newServer]);
+        })
+        .catch((error) =>
+        {
+            console.log(error);
+        });
+    }
+
+    function inviteFriends(event, users)
+    {
+        const headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        headers.append('authorization', `Bearer ${accessToken}`)
+        fetch(`${baseUrl}direct/invite`,
+        {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify({users: users})
+        })
+        .then((res => res.json()))
+        .then((directs) =>
+        {
+            directs.forEach((direct) =>
+            {
+                fetch(`${baseUrl}message/`,
+                {
+                    method: 'POST',
+                    headers: headers,
+                    body: JSON.stringify({content: server._id, channel: direct._id, isInvite: true})
+                })
+                .then((res => res.json()))
+                .then(() =>
+                {
+                    console.log('enviado');
+                })
+                .catch((error) =>
+                {
+                    console.log(error);
+                });
+            });
         })
         .catch((error) =>
         {
@@ -109,7 +170,7 @@ export function ServerProvider({ children })
         {
             setChannels([...channels, newChannel]);
         })
-        .catch((error) =>
+        .catch((serror) =>
         {
             console.log(error);
         });
@@ -121,8 +182,10 @@ export function ServerProvider({ children })
         server: server,
         channels: channels,
         getChannels: getChannels,
-        createServer: createServer,
-        createChannel: createChannel
+        createServer: createServer,  
+        createChannel: createChannel,
+        inviteFriends: inviteFriends,
+        joinServer: joinServer
     };
 
     return(

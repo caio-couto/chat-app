@@ -30,9 +30,9 @@ router.post('/', async (req, res) =>
         return res.sendStatus(403);
     }
 
-    const { content, channel } = req.body;
+    const { content, channel, isInvite } = req.body;
 
-    const newMessage = await (await Message.create({content: content, channel: channel, sender: req.user._id})).populate('sender')
+    const newMessage = await (await Message.create({content: content, channel: channel, sender: req.user._id, isInvite: isInvite ? isInvite : false})).populate('sender')
     .catch((error) =>
     {
         console.log(error); 
@@ -42,5 +42,23 @@ router.post('/', async (req, res) =>
     res.status(200).send(newMessage);
 });
 
+router.delete('/', async (req, res) =>
+{
+    if(!req.user)
+    {
+        return res.sendStatus(403);
+    }
+
+    const { messageId } = req.body;
+
+    await Message.findByIdAndDelete(messageId)
+    .catch((error) =>
+    {
+        console.log(error); 
+        res.sendStatus(500);
+    });
+
+    res.sendStatus(200);
+});
 
 module.exports = router;

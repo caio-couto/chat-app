@@ -1,0 +1,235 @@
+.container
+{
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    padding: 4px 16px;
+    margin-right: 4px;
+    background-color: transparent;
+}
+.container.mention 
+{
+    background-color: var(--mention-message);
+    border-left: 2px solid var(--mention-detail);
+    padding-left: 14px;
+}
+.container + div 
+{
+    margin-top: 13px;
+}
+.avatar
+{
+    width: 40px;
+    height: 40px;
+    background-color: var(--secondary);
+    border-radius: 50%;
+}
+.avatar img
+{
+    width: 100%;
+}
+.avatar.bot 
+{
+    background-color: var(--mention-detail);
+}
+
+.message
+{
+    min-height: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-left: 17px;
+}
+
+.header
+{
+  display: flex;
+  align-items: center;
+}
+.time 
+{
+    margin-left: 6px;
+    color: var(--gray);
+    font-size: 13px;
+}
+.header > strong 
+{
+    color: var(--white);
+    font-size: 16px;
+}
+.header > span 
+{
+    margin-left: 6px;
+    background-color: var(--discord);
+    color: var(--white);
+    border-radius: 4px;
+    padding: 4px 5px;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 11px;
+}
+.content
+{
+  text-align: left;
+  font-size: 16px;
+  color: var(--white);
+}
+.options
+{
+    opacity: 0;
+}
+.container:hover
+{
+    background-color: #2b2d3034;
+}
+.container:hover .options
+{
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 18px;
+    opacity: 1;
+    width: 100px;
+    height: 25px;
+    right: 10px;
+    top: -15px;
+    background-color: white;
+    position: absolute;
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    -ms-border-radius: 4px;
+    -o-border-radius: 4px;
+}
+.invite
+{
+    display: flex;
+    flex-direction: column;
+}
+.invite .card
+{
+    padding: 10px 10px;
+    width: 300px;
+    height: 90px;
+    margin: 5px 0px;
+    background-color: var(--tertiary);
+    border-radius: 5px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    -ms-border-radius: 5px;
+    -o-border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.invite .card strong
+{
+    font-size: 10px;
+    text-transform: uppercase;
+}
+.invite .card .server_conatainer
+{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 5px;
+}
+.invite .card .server_conatainer .server_info
+{
+    display: flex;
+    flex-direction: row;
+}
+.invite .card .server_conatainer .server_details
+{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 3px 0px;
+}
+.invite .card .server_conatainer .server_details strong
+{
+    font-size: 12px;
+    letter-spacing: 1px;
+}
+.invite .card .server_conatainer .server_details .server_users
+{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.invite .card .server_conatainer .server_details .server_users > div
+{
+    width: 10px;
+    height: 10px;
+    margin-right: 5px;
+    background-color: var(--gray);
+    border-radius: 50%;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+}
+.invite .card .server_conatainer .server_details .server_users span
+{
+    font-size: 10px;
+}
+.invite .card .server_conatainer .server_icon
+{
+    user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-right: 10px;
+    width: 48px;
+    height: 48px;
+    background-color: var(--primary);
+    cursor: pointer;
+    position: relative;
+    border-radius: 16px;
+    -webkit-border-radius: 16px;
+    -moz-border-radius: 16px;
+    -ms-border-radius: 16px;
+    -o-border-radius: 16px;
+    transition: all 0.2s ease-out;
+    -webkit-transition: all 0.2s ease-out;
+    -moz-transition: all 0.2s ease-out;
+    -ms-transition: all 0.2s ease-out;
+    -o-transition: all 0.2s ease-out;
+}
+.invite .card .server_conatainer .button
+{
+    user-select: none;
+    color: white;
+    cursor: pointer;
+    width: 70px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    font-size: 10px;
+    text-transform: uppercase;
+    font-weight: bold;
+    background-color: transparent;
+    border: 1px solid var(--server-green);
+    border-radius: 8px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    -ms-border-radius: 8px;
+    -o-border-radius: 8px;
+}
+.invite .card .server_conatainer .button:disabled
+{
+    border: 1px solid var(--gray);
+    cursor: default;
+}
+.invite .card .server_conatainer .button:disabled:hover
+{
+    background-color: transparent;
+}
+.invite .card .server_conatainer .button:hover
+{
+    background-color: var(--server-green);
+}

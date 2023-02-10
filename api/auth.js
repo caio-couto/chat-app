@@ -48,6 +48,46 @@ router.post('/login', async (req, res) =>
     res.status(200).send(payload);
 });
 
+router.post('/register', async (req, res) =>
+{
+    const { email, username, password, date } = req.body;
+
+    if(email.trim() && username.trim() && password && date)
+    {
+        const userDate = new Date(date);
+        const salt = bcrypt.genSaltSync(10);
+        const hash = bcrypt.hashSync(password, salt);
+
+        const emailExist = await User.findOne({email: email})
+        .catch((error) =>
+        {
+            console.log(error);
+            return res.sendStatus(500);
+        });
+
+        if(emailExist)
+        {
+            return res.sendStatus(400);
+        }
+
+        const discriminator = await discriminatorValidate(username, genDiscriminator());
+        console.log(discriminator);
+
+        const newUser = await User.create({email: email, username: username, password: hash, date: userDate, discriminator: discriminator})
+        .catch((error) =>
+        {
+            console.log(error);
+            return res.sendStatus(500);
+        });
+
+        return res.sendStatus(200);
+    }
+    else
+    {
+        return res.sendStatus(400);
+    }
+});
+
 router.post('/refresh', async (req, res) =>
 {
     let tokenRefresh = req.body.token;
@@ -129,6 +169,8 @@ async function discriminatorValidate(username, discriminator)
     {
         return await discriminatorValidate(username, genDiscriminator());
     }
+
+    return discriminator;
 }
 
 function genDiscriminator()
@@ -138,7 +180,7 @@ function genDiscriminator()
         return Math.floor(Math.random() * 9);
     }
 
-    return `${genRandomNumber()}${genRandomNumber()}${genRandomNumber()}`;
+    return `${genRandomNumber()}${genRandomNumber()}${genRandomNumber()}${genRandomNumber()}`;
 }
 
 module.exports = router;

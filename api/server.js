@@ -22,6 +22,25 @@ router.get('/', async (req, res) =>
     res.status(200).send(servers);
 });
 
+router.get('/:serverId', async (req, res) =>
+{
+    if(!req.user)
+    {
+        return res.sendStatus(403);
+    }
+
+    const serverId = req.params.serverId;
+
+    const server = await Server.findById(serverId)
+    .catch((error) =>
+    {
+        console.log(error); 
+        res.sendStatus(500);
+    });
+
+    return res.status(200).send(server);
+});
+
 router.post('/', async (req, res) =>
 {
     if(!req.user)
@@ -47,6 +66,21 @@ router.post('/', async (req, res) =>
     });
 
     res.status(200).send(newServer);
+});
+
+router.put('/:serverId', async (req, res) =>
+{
+    if(!req.user)
+    {
+        return res.sendStatus(403);
+    }
+
+    const userId = req.body.userId;
+    const serverId = req.params.serverId;
+
+    await Server.findByIdAndUpdate(serverId, {$addToSet: {users: userId}});
+
+    res.sendStatus(200);
 });
 
 module.exports = router;

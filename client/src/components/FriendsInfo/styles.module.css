@@ -1,0 +1,164 @@
+
+.container
+{
+  grid-area: CD;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: var(--primary);
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: 46px auto;
+  grid-template-areas: 
+  'SW'
+  'CC';
+}
+.friend
+{
+  border-top: 1px solid #5a5a5a;
+  padding: 12px 0px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: space-between;
+}
+.friend .buttons
+{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+.friend .buttons .button
+{
+  cursor: pointer;
+  color: #b9bbbe;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  margin: 0px 10px;
+  background-color: #2f3136;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+}
+.profile
+{
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+}
+.profile:hover
+{
+  background-color: var(--primary);
+}
+.avatar
+{
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+  background-color: var(--gray);
+}
+.user_data
+{
+  margin-left: 8px;
+  display: flex;
+  flex-direction: column;
+}
+.user_data > strong
+{
+  font-size: 13px;
+  color: var(--white);
+  display: block;
+}
+.user_data > span
+{
+  font-size: 13px;
+  color: var(--gray);
+}
+.add_user h2
+{
+  font-size: 16px;
+  text-transform: uppercase;
+  font-weight: 600px;
+  margin-bottom: 8px;
+  color: #ffff;
+}
+.add_user p
+{
+  color: #b9bbbe;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+}
+.add_user form
+{
+  margin-top: 16px;
+}
+.friendInput
+{
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 400;
+  background-color: #202225;
+  height: 48px;
+  border-radius: 8px;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  -ms-border-radius: 8px;
+  -o-border-radius: 8px;
+  padding: 0 12px;
+}
+.friendInput input
+{
+  background-color: unset;
+  color: #dcddde;
+  flex: 1;
+  height: 100%;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 20px;
+  white-space: pre;
+  letter-spacing: .04em;
+}
+.friendInput button
+{
+  cursor: pointer;
+  padding: 2px 16px;
+  height: 32px;
+  background-color: #5865f2;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 3px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -ms-border-radius: 3px;
+  -o-border-radius: 3px;
+}
+.counter
+{
+  text-transform: uppercase;
+  color: #b9bbbe;
+  font-size: 12px;
+  line-height: 16px;
+  font-weight: 600;
+  margin-bottom: 25px;
+}

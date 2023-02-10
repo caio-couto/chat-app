@@ -1,59 +1,66 @@
 .container
 {
-    position: relative;
-    grid-area: SN;
-    background-color: var(--secondary);
+    grid-area: CL;
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
+    padding: 10px;
+    background-color: var(--secondary);
+    height: 100%;
+    overflow-y: auto;
+}
+.category
+{
+    display: flex;
     align-items: center;
-    padding: 0px 10px 0px 10px;
-    box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 0px 0px;
-    z-index: 2;
+    justify-content: space-between;
+    margin-bottom: 6px;
+}
+.category > span
+{
+    text-transform: uppercase;
+    color: var(--gray);
+    font-size: 12px;
+    font-weight: 500;
+}
+.add_category
+{
+    width: 21px;
+    height: 21px;
+    color: var(--symbol);
+    cursor: pointer;
+}
+.container a
+{
+    text-decoration: none;
+}
+.friends
+{
+    cursor: pointer;
+    border-radius: 3px;
+    padding: 8px 10px;
+    background-color: #4f545c99;
+    display: flex;
+    align-items: center;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 400;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 3px;
+    -ms-border-radius: 3px;
+    -o-border-radius: 3px;
+    margin-bottom: 20px;
+}
+.friends :not(span)
+{
+    font-size: 24px;
+    margin-right: 12px;
+    margin-left: 8px;
 }
 .title
 {
     font-size: 16px;
     font-weight: bold;
     color: var(--white);
-}
-.container .expand_icon
-{
-    cursor: pointer;
-    user-select: none;
-    font-size: 22px;
-    color: white;
-}
-.container .option
-{
-    margin: 5px;
-    padding: 8px;
-    border-radius: 5px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    -ms-border-radius: 5px;
-    -o-border-radius: 5px;
-}
-.container .option p
-{
-    color: white;
-    font-size: 14px;
-    font-weight: 500;
-}
-.container .option .icon
-{
-    display: flex;
-    justify-content: center;
-    color: white;
-    font-size: 20px;
-    font-weight: bold;
-}
-.container .option:hover
-{
-    background-color: var(--link);
 }
 .modal_container
 {
@@ -113,6 +120,7 @@
     cursor: pointer;
     width: 200px;
     height: 40px;
+    margin: auto;
     margin: 20px auto 5px auto;
     color: white;
     font-weight: bold;
@@ -223,18 +231,4 @@
 .modal_container .content form .user_list_item label:hover
 {
     background-color: var(--server-green);
-}
-.modal_container .content .server_icon
-{
-    margin: 20px 0px 20px 0px;
-    width: 80px;
-    height: 80px;
-    background-color: transparent;
-    border-radius: 50%;
-    -webkit-border-radius: 50%;
-    -moz-border-radius: 50%;
-    -ms-border-radius: 50%;
-    -o-border-radius: 50%;
-    border: 3px solid rgb(74, 74, 74);
-    border-style: dashed;
 }

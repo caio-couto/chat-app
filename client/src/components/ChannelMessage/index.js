@@ -15,7 +15,12 @@ function ChannelMessage({message})
 
   return (
     <div className={styles.container}>
-        <div className={styles.avatar}></div>
+        <div className={styles.avatar}>
+          {
+            message.sender.profilePic != 'none' && message.sender.profilePic &&
+              <img className={styles.profile_pic} src={`http://localhost:5000/api/uploads/images/user/${message.sender.profilePic.split('/')[4]}`} />
+          }
+        </div>
         <div className={styles.message}>
             <div className={styles.header}>
                 <strong>{message.sender.username}</strong>

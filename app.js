@@ -27,6 +27,7 @@ const ServerRoutes = require('./api/server');
 const ChannelRoutes = require('./api/channel');
 const MessageRoutes = require('./api/message');
 const DirectRoutes = require('./api/direct');
+const UploadRputes = require('./api/uploads');
 
 const verifyToken = require('./middleware/verifyToken');
 
@@ -36,6 +37,7 @@ app.use('/api/server/', verifyToken, ServerRoutes);
 app.use('/api/channel/', verifyToken, ChannelRoutes);
 app.use('/api/message/', verifyToken, MessageRoutes);
 app.use('/api/direct/', verifyToken, DirectRoutes);
+app.use('/api/uploads/', UploadRputes);
 
 app.get('/', (req, res) =>
 {

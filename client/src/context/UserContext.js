@@ -53,10 +53,34 @@ export function UserProvider({ children })
         });
     }
 
+    function uploadImage(formData)
+    {
+        const headers = new Headers();
+        headers.append('authorization', `Bearer ${accessToken}`)
+        headers.append('Access-Control-Allow-Origin', 'http://localhost:5000');
+        headers.append('Access-Control-Allow-Credentials', 'true');
+        fetch(`${baseUrl}user/profilePic`,
+        {
+            method: 'POST',
+            headers: headers,
+            body: formData
+        })
+        .then((res => res.json()))
+        .then(() =>
+        {
+            console.log('atualizado');
+        })
+        .catch((error) =>
+        {
+            console.log(error);
+        });
+    }
+
     const contextData =
     {
         user: user,
-        addFriend: addFriend
+        addFriend: addFriend,
+        uploadImage: uploadImage
     };
 
     return(

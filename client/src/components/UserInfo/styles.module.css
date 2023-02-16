@@ -188,3 +188,26 @@
     color: rgb(193, 193, 193);
     font-size: 14px;
 }
+.menu_container
+{
+    width: 450px;
+    margin: 20px auto;
+    z-index: 3;
+}
+.modal_container .title
+{
+    text-align: center;
+    color: black;
+}
+.modal_container .title p
+{
+    color: rgb(96, 96, 96);
+}
+.modal_container .content
+{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}

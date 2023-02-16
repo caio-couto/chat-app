@@ -9,7 +9,7 @@ const serverSchema = new mongoose.Schema(
     serverImage:
     {
         type: String,
-        default: '/images/serverImage.jpeg'
+        default: 'none'
     },
     users:
     [

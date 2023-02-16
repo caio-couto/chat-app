@@ -37,7 +37,12 @@ function OnlineUsers({friends})
         (
           <div className={styles.friend} key={friend._id}> 
             <div className={styles.profile}>
-                  <div className={styles.avatar}></div>
+                  <div className={styles.avatar}>
+                    {
+                      friend.profilePic != 'none' && friend.profilePic &&
+                        <img className={styles.profile_pic} src={`http://localhost:5000/api/uploads/images/user/${friend.profilePic.split('/')[4]}`} />
+                    }
+                  </div>
                   <div className={styles.user_data}>
                       <strong>{friend.username}</strong>
                       <span>{friend.status ? 'Online' : 'Offline'}</span>
@@ -71,7 +76,12 @@ function AllUsers({friends})
         (
           <div className={styles.friend} key={friend._id}> 
             <div className={styles.profile}>
-                  <div className={styles.avatar}></div>
+                  <div className={styles.avatar}>
+                    {
+                      friend.profilePic != 'none'&&
+                        <img className={styles.profile_pic} src={`http://localhost:5000/api/uploads/images/user/${friend.profilePic.split('/')[4]}`} />
+                    }
+                  </div>
                   <div className={styles.user_data}>
                       <strong>{friend.username}</strong>
                       <span>{friend.status ? 'Online' : 'Offline'}</span>

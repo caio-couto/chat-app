@@ -59,6 +59,11 @@
 {
     width: 450px;
 }
+.menu_container
+{
+    width: 450px;
+    margin: 0 auto;
+}
 .modal_container .title
 {
     text-align: center;

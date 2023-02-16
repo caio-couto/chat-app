@@ -23,6 +23,7 @@
     height: 40px;
     background-color: var(--secondary);
     border-radius: 50%;
+    overflow: hidden;
 }
 .avatar img
 {
@@ -223,4 +224,9 @@
 .invite .card .server_conatainer .button:hover
 {
     background-color: var(--server-green);
+}
+.profile_pic
+{
+    width: 100%;
+    height: 100%;
 }

@@ -1,5 +1,6 @@
 import React from "react";
 import styles from './styles.module.css';
+import { SlClose } from 'react-icons/sl';
 
 function Menu({ children, isOpen, setIsOpen })
 {
@@ -9,11 +10,9 @@ function Menu({ children, isOpen, setIsOpen })
     }
     
     return(
-        <div className={styles.backdrop}>
-            <div className={styles.modal}>
-                <button onClick={() => {setIsOpen(false)}} type="button" className={styles.modal_close}/>
-                {children}
-            </div>
+        <div className={styles.modal}>
+            <SlClose onClick={() => {setIsOpen(false)}} type="button" className={styles.modal_close}/>
+            {children}
         </div>
     );
 }

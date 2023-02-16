@@ -32,8 +32,8 @@ function ServerList()
             {
                 servers?.map((server, index) =>
                 (
-                    <Link key={index} to={`/channels/${server._id}`}>
-                        <ServerButton setSelected={setSelected} selected={selected} index={index + 1}/>
+                    <Link key={index} to={`/channels/${server._id}`} style={{textDecoration: 'none'}}>
+                        <ServerButton name={server.name} image={server.serverImage} setSelected={setSelected} selected={selected} index={index + 1}/>
                     </Link>
                 ))
             }

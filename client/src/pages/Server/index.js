@@ -11,14 +11,14 @@ import UserContext from "../../context/UserContext";
 
 function Server()
 {
-    const { server } = useContext(ServerContext);
+    const { server, channel } = useContext(ServerContext);
     const { user } = useContext(UserContext);
 
     return(
         <div className={styles.grid}> 
             <ServerName serverName={server?.name} serverId={server?._id}/>
             <ChannelList serverId={server?._id}/>
-            <ChannelInfo/>
+            <ChannelInfo channel={channel && channel[0]}/>
             <UserList users={server?.users}/>
             <UserInfo user={user}/>
             <Outlet/>

@@ -71,6 +71,7 @@ function DirectList({ friends })
                 directs?.map((direct) =>
                 {
                     let directName = 'eu';
+                    let src = '';
 
                     if(direct.isGroupDirect)
                     {
@@ -84,12 +85,14 @@ function DirectList({ friends })
                     }
                     else
                     {
-                        directName = direct.users.filter((userDirect) => userDirect._id != user?._id)[0].username;
+                        const friend = direct.users.filter((userDirect) => userDirect._id != user?._id)[0];
+                        directName = friend.username;
+                        src = friend.profilePic;
                     }
 
                     return(
                         <Link className={styles.link} key={direct._id}  to={`${direct._id}`}>
-                            <DirectButton directName={directName}/>
+                            <DirectButton src={src} directName={directName}/>
                         </Link>
                     );
                 })

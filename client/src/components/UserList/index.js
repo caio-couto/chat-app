@@ -21,7 +21,7 @@ function UserList({ users })
             {
                 onlineUsers?.map((user) =>
                 (
-                    <UserRow key={user._id} userName={user.username}/>
+                    <UserRow key={user._id} user={user}/>
                 ))
             }
             <div className={styles.role}>
@@ -30,7 +30,7 @@ function UserList({ users })
             {
                 offlineUsers?.map((user) =>
                 (
-                    <UserRow key={user._id} userName={user.username}/>
+                    <UserRow key={user._id} user={user}/>
                 ))
             }
         </div>

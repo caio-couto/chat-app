@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useRef, useState } from "react";
 import { useLocation } from 'react-router-dom';
 import AuthContext from "./AuthContext";
 import UserContext from './UserContext';
@@ -12,9 +12,12 @@ export function ServerProvider({ children })
     const { accessToken } = useContext(AuthContext);
     const [servers, setServers] = useState(null); 
     const [channels, setChannels] = useState(null);
+    const [channel, setChannel] = useState(null);
     const { user } = useContext(UserContext);
-    const location = useLocation().pathname.split('/')[2];
+    const location = useLocation().pathname.split('/');
     const [server, setServer] = useState(null);
+
+
 
     useEffect(() =>
     {
@@ -35,11 +38,16 @@ export function ServerProvider({ children })
         {
             console.log(error);
         });
-    }, [accessToken, location]);
+    }, [accessToken, location[2]]);
 
     useEffect(() =>
     {
-        setServer(servers?.filter((server) => server._id == location)[0]);
+        setChannel(channels?.filter((channel) => channel._id == location[3]));
+    }, [location[3], channels]);
+
+    useEffect(() =>
+    {
+        setServer(servers?.filter((server) => server._id == location[2])[0]);
 
         if(server?._id)
         {
@@ -55,12 +63,35 @@ export function ServerProvider({ children })
         fetch(`${baseUrl}channel/server/${serverId}`,
         {
             method: 'GET',
-            headers: headers
+            headers: headers,
         })
         .then((res => res.json()))
         .then((serverChannels) =>
         {
             setChannels(serverChannels);
+        })
+        .catch((error) =>
+        {
+            console.log(error);
+        });
+    }
+
+    function uploadImage(formData)
+    {
+        const headers = new Headers();
+        headers.append('authorization', `Bearer ${accessToken}`)
+        headers.append('Access-Control-Allow-Origin', 'http://localhost:5000');
+        headers.append('Access-Control-Allow-Credentials', 'true');
+        fetch(`${baseUrl}server/${server._id}/profilePic`,
+        {
+            method: 'POST',
+            headers: headers,
+            body: formData
+        })
+        .then((res => res.json()))
+        .then(() =>
+        {
+            console.log('atualizado');
         })
         .catch((error) =>
         {
@@ -154,7 +185,6 @@ export function ServerProvider({ children })
 
     function createChannel(event, isDirect = false, belongsTo)
     {
-        console.log(belongsTo);
         event.preventDefault();
         const headers = new Headers();
         headers.append('Content-Type', 'application/json');
@@ -170,7 +200,7 @@ export function ServerProvider({ children })
         {
             setChannels([...channels, newChannel]);
         })
-        .catch((serror) =>
+        .catch((error) =>
         {
             console.log(error);
         });
@@ -185,7 +215,9 @@ export function ServerProvider({ children })
         createServer: createServer,  
         createChannel: createChannel,
         inviteFriends: inviteFriends,
-        joinServer: joinServer
+        joinServer: joinServer,
+        uploadImage: uploadImage,
+        channel: channel
     };
 
     return(

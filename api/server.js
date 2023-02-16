@@ -2,6 +2,10 @@ const router = require('express').Router();
 const User = require('../model/User');
 const Server = require('../model/Server');
 const Channel = require('../model/Channel');
+const multer = require('multer');
+const upload = multer({dest: 'public/images/server/'});
+const path = require('path');
+const fs = require('fs');
 
 router.get('/', async (req, res) =>
 {
@@ -81,6 +85,63 @@ router.put('/:serverId', async (req, res) =>
     await Server.findByIdAndUpdate(serverId, {$addToSet: {users: userId}});
 
     res.sendStatus(200);
+});
+
+router.post('/:serverId/profilePic', upload.single('croppedImage'), async (req, res) =>
+{
+    if(!req.user)
+    {
+        return res.sendStatus(403);
+    }
+
+    if(!req.file)
+    {
+        return res.sendStatus(400);
+    }
+
+    const serverId = req.params.serverId;
+
+    const filePath = `/public/images/server/${req.file.filename}.png`;
+    const tempPath = req.file.path;
+    const targetPath = path.join(__dirname, `../${filePath}`);
+
+    const server = await Server.findById(serverId)
+    .catch((error) =>
+    {
+        console.log(error);
+        return res.sendStatus(500);
+    });
+
+    if(server.serverImage != 'none')
+    {   
+        const targetPath = path.join(__dirname, `../${server.serverImage}`);
+        await fs.unlink( targetPath, (error) =>
+        {
+            if(error)
+            {
+                console.log(error);
+                return res.sendStatus(500)
+            }
+        })
+    }
+
+    fs.rename(tempPath, targetPath, async (error) =>
+    {
+        if(error)
+        {
+            console.log(error);
+            return res.sendStatus(500);
+        }
+
+        await Server.findByIdAndUpdate(serverId, {serverImage: filePath})
+        .catch((error) =>
+        {
+            console.log(error);
+            return res.sendStatus(500);
+        });
+    
+        return res.sendStatus(200);
+    });
 });
 
 module.exports = router;

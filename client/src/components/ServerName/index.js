@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import styles from './styles.module.css';
 import DropDown from "../Modals/DropDown/index";
 import { CgChevronDown, CgClose } from 'react-icons/cg';
@@ -10,6 +10,8 @@ import ServerContext from "../../context/ServerContext";
 import UserContext from "../../context/UserContext";
 import ChatContext from "../../context/ChatContext";
 import Menu from "../Modals/Menu";
+import Cropper from 'react-cropper';
+import "cropperjs/dist/cropper.css";
 
 function ServerName({ serverName, serverId })
 {
@@ -18,8 +20,10 @@ function ServerName({ serverName, serverId })
     const [createServerModal, setCreateServerModal] = useState(false);
     const [addUserModal, setAddUserModal] = useState(false);
     const { user } = useContext(UserContext);
-    const { inviteFriends, createChannel } = useContext(ServerContext);
+    const { inviteFriends, createChannel, uploadImage } = useContext(ServerContext);
     const [menu, setMenu] = useState(false);
+    const [src, setSrc] = useState(null);
+    const cropperRef = useRef(null);
 
 
     function toggleModal(modal, setModal)
@@ -51,6 +55,43 @@ function ServerName({ serverName, serverId })
         inviteFriends(event, select);
         setSelect([]);
         setAddUserModal(false);
+    }
+
+    function selectImage(event)
+    {
+        const input = event.target;
+        if(input.files)
+        {
+            const reader = new FileReader();
+
+            reader.onload = function(event)
+            {
+                setSrc(event.target.result);
+            }
+
+            reader.readAsDataURL(input.files[0])
+        }
+    }
+
+    function onCrop(event)
+    {
+        event.preventDefault();
+        const imageElement = cropperRef?.current;
+        const cropper = imageElement?.cropper;
+        const canvas = cropper.getCroppedCanvas();
+
+        if(canvas == null)
+        {
+            return
+        }
+        
+        canvas.toBlob((blob) =>
+        {
+            const formData = new FormData();
+            formData.append('croppedImage', blob);
+
+            uploadImage(formData);
+        });
     }
     
     return(
@@ -133,19 +174,22 @@ function ServerName({ serverName, serverId })
                 </div>
             </CreateServer>
             <Menu isOpen={menu} setIsOpen={setMenu}>
-                <div className={styles.modal_container}>
-                    <div className={styles.title}>
-                        <h2>Crie seu servidor</h2>
-                        <p>Deixe seu novo servidor com sua cara dando um nome e um ícone a ele. Se quiser, é possivel mudar depois.</p>
-                    </div>
+                <div className={styles.menu_container}>
                     <div className={styles.content}>
-                        <div className={styles.server_icon}>
-
-                        </div>
-                        <form >
+                        <form>
                             <label>NOME DO SERVIDOR</label>
+                            <label htmlFor="imageServer">escolha</label>
+                            <input onChange={(event) => selectImage(event)} id="imageServer" type='file' style={{display: 'none'}}/>
                             <input autoComplete="new-password" type='text' name='name' placeholder={serverName}/>
-                            <button type="submit">Editar</button>
+                            <button type="submit">Criar</button>
+                            {
+                                src&&
+                                <div>
+                                    <Cropper src={src} style={{ height: 400, width: 400 }} initialAspectRatio={1} viewMode={1} guides={true} minCropBoxHeight={10} minCropBoxWidth={10} ref={cropperRef} background={false}/>
+                                    <button onClick={(event) => onCrop(event)}>Cortar</button>
+                                </div>
+                                
+                            }
                         </form>
                     </div>
                 </div>
@@ -155,3 +199,5 @@ function ServerName({ serverName, serverId })
 }
 
 export default ServerName;
+
+                            {/* <Cropper src={`http://localhost:5000${user?.profilePic}`} style={{ height: 400, width: 400 }} initialAspectRatio={1} viewMode={1} guides={true} minCropBoxHeight={10} minCropBoxWidth={10} ref={cropperRef} background={false}/> */}

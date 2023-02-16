@@ -44,4 +44,10 @@
     -ms-border-radius: 50%;
     -o-border-radius: 50%;
     margin-right: 10px;
+    overflow: hidden;
+}
+.profile_pic
+{
+    width: 100%;
+    height: 100%;
 }
